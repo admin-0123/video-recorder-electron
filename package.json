@@ -1,6 +1,6 @@
 {
   "name": "adilo",
-  "version": "22.4.1",
+  "version": "22.4.2",
   "description": "adilo App",
   "main": "./build/main.js",
   "productName": "adilo",

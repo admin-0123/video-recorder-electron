@@ -42,6 +42,7 @@ var typeV;
 var yuppy;
 var fileName;
 var downloadTimer;
+var lastfile;
 $(document).on('click','._mu',function(){
   $.ajax(AJAX);
 });
@@ -248,12 +249,12 @@ async function getScreenStream(callback) {
       mediaRecorder = new MediaRecorder(streamnew);
       mediaRecorder.ondataavailable = handleDataAvailable;
       if(localStorage.getItem('countDown') == 'true'){
-        this.setState({RecordingStarted:true});
-        this.setState({countDown:true});
+        THIS.setState({RecordingStarted:true});
+        THIS.setState({countDown:true});
         ipcRenderer.send('resize-window', 'recording', 127, 94, false, false );
         
         document.getElementsByClassName('nav_bar')[0].style.display = 'none';
-        var TH = this;
+        var TH = THIS;
         var timeleft = 3;
         clearInterval(downloadTimer);
         downloadTimer = setInterval(() =>{
@@ -350,7 +351,28 @@ function downloadFile(fileName){
   console.log(url)
   fileName = fileName;
   ipcRenderer.send('download-button',{url,fileName});
- 
+  if(localStorage.getItem('openEditor') == 'true'){
+    THIS.setState({trimCut:true}) 
+    $('.fwyqgM').addClass('bgnewTrim')
+    ipcRenderer.send( 'full-screen',true);
+  } else {
+    var GO = 'yes';
+    console.log('heree');
+    ipcRenderer.on("downloadComplete", (event, file) => {
+      //THIS.setState({fullpath:file})
+      console.log('here');
+      var url = file;
+      var type = 'video/mp4';
+     if(GO == 'yes'){
+      ipcRenderer.send('add-file',{url,fileName,type});
+        GO = 'no';
+     }
+     
+    
+     
+      console.log(file); // Full file path
+    });
+  }
   // var a = document.createElement('a');
   // document.body.appendChild(a);
   // a.style = 'display: none';
@@ -411,6 +433,7 @@ function download() {
    FileObject = fileObject;
    fileName = fileName;
    downloadFile(fileName)
+   return false;
   //  var formData = new FormData();
   //  const userData = getStore('user_Data');
   //  const { user ,session,user_token} = userData;

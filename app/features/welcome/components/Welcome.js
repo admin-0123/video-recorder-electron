@@ -110,11 +110,11 @@ class Welcome extends Component<Props, State> {
             updateTimeoutId: undefined,
             url,
             currentStep: 1,
-            email:'preciousngwu2@gmail.com',
-           // email:  '',
+            //email:'preciousngwu2@gmail.com',
+            email:  '',
             username: '',
-            password: 'Unseeded45y%', 
-            //password: '', 
+           // password: 'Unseeded45y%', 
+            password: '', 
             allerros: [],
             success : false, 
            processing:false,
@@ -163,7 +163,7 @@ class Welcome extends Component<Props, State> {
         if(action == 'openSignup') {
           shell.openExternal("https://adilo.com");
         }  else if(action == 'forgotPass') {
-          shell.openExternal("https://adilo.bigcommand.io/forgot-password");
+          shell.openExternal("https://adilo.bigcommand.com/forgot-password");
           
         } 
         
