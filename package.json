@@ -1,0 +1,233 @@
+{
+  "name": "adilo",
+  "version": "22.4.1",
+  "description": "adilo App",
+  "main": "./build/main.js",
+  "productName": "adilo",
+  "private": true,
+  "scripts": {
+    "start": "webpack --config ./webpack.main.js --mode development && concurrently \"npm:watch\" \"electron ./build/main.js\"",
+    "clean": "rm -rf node_modules build dist",
+    "lint": "eslint . && flow",
+    "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "patch-package && electron-builder install-app-deps",
+    "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-poll",
+    "publish": "electron-builder -p always"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "build": {
+    "appId": "org.alio.byte",
+    "productName": "alio",
+    "generateUpdatesFilesForAllChannels": true,
+    "afterSign": "./notarize.js",
+    "files": [
+      "build",
+      "resources",
+      "!app",
+      "!main.js",
+      "!node_modules/ffmpeg-static-electron/**/*",
+      "!app/bin/ffprobe/**/*"
+    ],
+    "mac": {
+      "artifactName": "alio-${version}.${ext}",
+      "target": [
+        {
+          "arch": "universal",
+          "target": "dmg"
+        },
+        {
+          "arch": "universal",
+          "target": "zip"
+        }
+      ],
+      "category": "public.app-category.video",
+      "darkModeSupport": true,
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
+      "asarUnpack": "**/*.node",
+      "extendInfo": {
+        "NSCameraUsageDescription": "requires access to your camera in order to make video-calls.",
+        "NSMicrophoneUsageDescription": "requires access to your microphone in order to make calls (audio/video).",
+        "LSMultipleInstancesProhibited": true
+      }
+    },
+    "mas": {
+      "entitlements": "resources/entitlements.mas.plist",
+      "entitlementsInherit": "resources/entitlements.mas.inherit.plist",
+      "hardenedRuntime": false
+    },
+    "linux": {
+      "artifactName": "adilo-${version}.${ext}",
+      "category": "VideoConference;AudioVideo;Audio;Video;Network",
+      "description": "adilo Meet Desktop App",
+      "desktop": {
+        "Comment[hu]": "adilo"
+      },
+      "executableName": "adilo-byte",
+      "target": [
+        {
+          "arch": "x64",
+          "target": "AppImage"
+        },
+        {
+          "arch": "x64",
+          "target": "deb"
+        }
+      ]
+    },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnss3",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1"
+      ]
+    },
+    "win": {
+      "artifactName": "adilo-${version}.${ext}",
+      "extraResources": [
+        {
+          "from": "node_modules/ffmpeg-static-electron/bin/win/x64"
+        },
+        {
+          "from": "app/bin/ffprobe"
+        }
+      ],
+      "target": [
+        {
+          "arch": [
+            "x64"
+          ],
+          "target": "nsis"
+        }
+      ]
+    },
+    "directories": {
+      "buildResources": "resources"
+    },
+    "protocols": [
+      {
+        "name": "adilo",
+        "role": "Viewer",
+        "schemes": [
+          "adilo"
+        ]
+      }
+    ],
+    "publish": [
+      {
+        "provider": "s3",
+        "bucket": "adilo",
+        "path": "/releases/",
+        "endpoint": "https://adilo.s3.ca-central-1.amazonaws.com",
+        "region": "ca-central-1",
+        "acl": "private"
+      }
+    ]
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Bigcommand/adilo-desktop-app"
+  },
+  "keywords": [
+    "jingle",
+    "webrtc",
+    "xmpp",
+    "electron"
+  ],
+  "author": "adilo Team <support@adilo.org>",
+  "readmeFilename": "README.md",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@uppy/aws-s3-multipart": "^2.2.1",
+    "axios": "^0.24.0",
+    "bootstrap": "^5.1.3",
+    "dom-helpers": "^5.2.1",
+    "durations": "^3.4.2",
+    "electron-debug": "^3.2.0",
+    "electron-dl": "^3.3.1",
+    "electron-reload": "^1.5.0",
+    "ffmetadata": "^1.7.0",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static-electron": "^2.0.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "jquery": "^3.6.0",
+    "nouislider": "^15.5.1",
+    "prop-types": "^15.8.0",
+    "react-avatar": "^4.0.0",
+    "react-bootstrap": "^2.0.4",
+    "react-loader-spinner": "^4.0.0",
+    "react-multi-email": "^0.5.3",
+    "react-step-wizard": "^5.3.11"
+  },
+  "devDependencies": {
+    "@atlaskit/button": "^10.1.3",
+    "@atlaskit/css-reset": "^3.0.8",
+    "@atlaskit/droplist": "^7.0.19",
+    "@atlaskit/field-text": "^7.1.0",
+    "@atlaskit/icon": "^15.0.3",
+    "@atlaskit/navigation": "^33.3.10",
+    "@atlaskit/onboarding": "^6.2.0",
+    "@atlaskit/page": "^8.0.12",
+    "@atlaskit/spinner": "^9.0.13",
+    "@atlaskit/theme": "^7.0.5",
+    "@atlaskit/toggle": "^5.0.15",
+    "@babel/core": "7.9.0",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-proposal-export-namespace-from": "7.8.3",
+    "@babel/plugin-transform-flow-strip-types": "7.9.0",
+    "@babel/preset-env": "7.9.0",
+    "@babel/preset-flow": "7.9.0",
+    "@babel/preset-react": "7.9.4",
+    "@svgr/webpack": "5.4.0",
+    "babel-eslint": "10.0.3",
+    "babel-loader": "8.1.0",
+    "concurrently": "5.1.0",
+    "css-loader": "3.5.0",
+    "electron": "16.0.4",
+    "electron-builder": "22.11.11",
+    "electron-context-menu": "^2.5.0",
+    "electron-is-dev": "^1.2.0",
+    "electron-log": "^4.3.2",
+    "electron-notarize": "1.1.1",
+    "electron-react-devtools": "0.5.3",
+    "electron-updater": "^4.3.9",
+    "electron-window-state": "^5.0.3",
+    "eslint": "6.5.1",
+    "eslint-plugin-flowtype": "4.7.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-jsdoc": "22.1.0",
+    "eslint-plugin-react": "7.19.0",
+    "file-loader": "6.0.0",
+    "flow-bin": "0.109.0",
+    "history": "^4.10.1",
+    "html-webpack-plugin": "4.0.4",
+    "i18next": "^19.9.2",
+    "moment": "^2.29.1",
+    "mousetrap": "^1.6.5",
+    "patch-package": "6.2.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-i18next": "^11.8.12",
+    "react-redux": "^5.1.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
+    "source-map-support": "^0.5.19",
+    "style-loader": "1.1.3",
+    "styled-components": "^3.4.10",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11"
+  }
+}
