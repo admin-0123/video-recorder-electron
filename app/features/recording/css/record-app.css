@@ -523,9 +523,9 @@ span.uploadStop:hover {color: red;}
     display: none !important;
 }
 
-.uppy-StatusBar-actionCircleBtn{
+/* .uppy-StatusBar-actionCircleBtn{
     margin: 1px -146px 40px 154px;
-}
+} */
 .second{
     background-position: center;
     height: 60px;

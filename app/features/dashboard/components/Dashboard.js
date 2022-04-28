@@ -32,7 +32,10 @@ import config from '../../config';
 
 
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;
+let ipcMain  =  window.snapNodeAPI.ipcMain;
 let shell  =  window.snapNodeAPI.shell;
+let fs  =  window.snapNodeAPI.fs;
+var uppy;
 
 
 type Props = {
@@ -104,6 +107,7 @@ class DashboardPage extends Component<Props, State> {
         this.record = this.record.bind(this);
         this.openPage = this.openPage.bind(this);
         this.deleteFile = this.deleteFile.bind(this);
+        this.uploadfile = this.uploadfile.bind(this);
         this.state = {
             Files:[],
             pagination: {
@@ -130,6 +134,14 @@ class DashboardPage extends Component<Props, State> {
         // this.props.dispatch(startOnboarding('welcome-page'));
 
         // this._updateRoomname();
+        ipcRenderer.on('uploadFIle', (event,{url,fileName,type}) =>  {
+            this.uploadfile(url,type,fileName);
+            //console.log(event);
+            //console.log(action);
+        
+        });
+        
+
         const userData = getStore('user_Data');
         const token = getStoreSingle('user_token');
         const selectedWorkspaceId = getStoreSingle('selectedWorkspaceId');
@@ -149,7 +161,7 @@ class DashboardPage extends Component<Props, State> {
                 access_token: `Bearer ${token}`
             }
         this.getFiles();
-        var uppy = new Uppy.Core({
+         uppy = new Uppy.Core({
             debug: true,
             autoProceed: false,
             allowMultipleUploadBatches: true,
@@ -158,7 +170,7 @@ class DashboardPage extends Component<Props, State> {
                 //maxFileSize: 1000000,
                 maxNumberOfFiles: 10,
                 minNumberOfFiles: 1,
-                allowedFileTypes: ['image/*', 'video/*'],
+                //allowedFileTypes: ['image/*', 'video/*'],
             },
             meta:meta_fields
         })
@@ -173,7 +185,7 @@ class DashboardPage extends Component<Props, State> {
         })
         .use(Uppy.AwsS3Multipart, {
             limit: 2,
-            companionUrl: 'https://adilo.bigcommand.com/api'
+            companionUrl: `${config.apiUrl}api`
         })
         uppy.on('file-added', (file) => {
             console.log(file);
@@ -223,7 +235,7 @@ class DashboardPage extends Component<Props, State> {
             var obj = {
               method: 'post',
               responseType: 'json',
-              url: 'https://adilo.bigcommand.com/api/video-upload/s3-sign/save',
+              url: `${config.apiUrl}api/video-upload/s3-sign/save`,
               headers: { 
                   'Authorization': `Bearer ${token}`
               },
@@ -262,6 +274,37 @@ class DashboardPage extends Component<Props, State> {
      */
     componentWillUnmount() {
      
+    }
+    uploadfile(path,type,filename){
+        fs.readFile(path , async function (err, data) {
+            const blob = new Blob([data.buffer], {type: '*'})
+            // var audioURL = window.URL.createObjectURL(blob);
+        
+            var fileName = filename;
+            var typeV = 'video/mp4';
+            if(type == 'audio'){
+                typeV = 'audio/mp3';
+            }
+            // const buffer = Buffer.from(await blob.arrayBuffer());
+            var fileObject = new File([blob], fileName, {
+              type: typeV
+           });
+
+            uppy.addFile({
+            // .use(Uppy.addFile, {
+                name: fileObject.name, // file name
+                type: type, // file type
+                data: fileObject, // file blob
+                // meta: {
+                //   // optional, store the directory path of a file so Uppy can tell identical files in different directories apart.
+                //   relativePath: webkitFileSystemEntry.relativePath,
+                // },
+                source: '#drag-drop-area', // optional, determines the source of the file, for example, Instagram.
+                isRemote: false, // optional, set to true if actual file is not in the browser, but on some remote server, for example,
+                // when using companion in combination with Instagram.
+            })
+        })
+
     }
     openPage(action,id=null) {
         if(action == 'openFile') {

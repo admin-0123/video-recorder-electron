@@ -10,7 +10,7 @@ const {
 } = require('electron');
 const {download} = require('electron-dl');
 
-let deeplinkingUrl, child,child2,child3;
+let deeplinkingUrl, child,child2,child3,child4;
 const contextMenu = require('electron-context-menu');
 const debug = require('electron-debug');
 const isDev = require('electron-is-dev');
@@ -130,6 +130,11 @@ function tray(basePath) {
                     if(child || child2 || child3) {
                         child.restore();
                          //shutdown();
+                     } else {
+                        mainWindow.show()
+                        mainWindow.restore();
+                        mainWindow.focus();
+                        mainWindow.webContents.executeJavaScript(`$('.checkupdate').click()` );
                      }
                 } else {
                     app.quit();
@@ -517,6 +522,60 @@ function createSnapByteWindow() {
             child3.on('child-3minimize',() => {
                 child3.minimize();
              });
+        }else if(childTitle == 'Preference'){
+            if (child4 == null) {
+                options.parent = child;
+                child4 = new BrowserWindow(options);
+    
+                child4.loadURL(indexURL+'?action='+title+'&mid='+id);
+    
+                child4.show();
+               
+                child4.webContents.on('did-finish-load',() => {
+                    child4.setTitle(childTitle)
+    
+                });
+                mainWindow.minimize()
+            } else {
+                child4.setTitle(childTitle)
+                if (child4.isMinimized()) child.restore()
+                child4.focus()
+            }
+            // child4.on('focus',(events, args) => {
+            //     if(child!=null ){
+            //         child4.focus()
+            //         //child2.focus()
+            //     }
+            // });
+            child4.on('close', (events, args) => {
+                //mainWindow.restore();
+                //mainWindow.focus();
+                // mainWindow.webContents.executeJavaScript(
+                //     `$('.refresh').click();`
+                // );
+            })
+            child4.on('closed', (events, args) => {
+                child4 = null;
+                 // mainWindow.restore()
+                if (mainWindow === null) {
+                  /// createJitsiMeetWindow('opened');
+    
+                } else {
+                    
+                    mainWindow.webContents.executeJavaScript(
+                        `localStorage.setItem('refresh','true')`
+                    );
+                    // mainWindow.show()
+                    // mainWindow.restore()
+                    // mainWindow.focus();
+                }
+    
+                   // log.info("******************************************** closed Opened ********************************************");
+    
+            });
+            child4.on('child-2minimize',() => {
+                child4.minimize();
+             });
         } else {
 
         
@@ -568,7 +627,7 @@ function createSnapByteWindow() {
                
                 mainWindow.restore()
                 mainWindow.focus();
-                mainWindow.reload()
+                //mainWindow.reload()
             }
 
                // log.info("******************************************** closed Opened ********************************************");
@@ -630,6 +689,15 @@ function createSnapByteWindow() {
             }).then(dl => win.webContents.send("downloadComplete", dl.getSavePath()));
 
             console.log(DownloadItem);
+        });
+
+        ipcMain.on('add-file', async (event,{url,fileName,type}) =>  {
+         // console.log(event);
+          console.log(url);
+          console.log(fileName);
+          console.log(type);
+          mainWindow.webContents.send("uploadFIle",{url,fileName,type});
+        
         });
 
     /**
@@ -769,7 +837,7 @@ app.on('open-url', (event, data) => {
     handleProtocolCall(data);
 });
 ipcMain.on("win::minimize", (data) => {
-    console.log(data.sender.id)
+    //console.log(data.sender.id)
     if(data.sender.id ==1) {
          mainWindow.minimize()
     }

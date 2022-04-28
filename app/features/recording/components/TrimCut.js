@@ -99,7 +99,8 @@ class TrimCut extends Component<Props, State> {
       fullpath:'',
       blobsD:[],
       publish:false,
-      canEdit:false
+      canEdit:false,
+      uploadFilePath:''
 		  };
 		  this.loadProgress =  this.loadProgress.bind(this);
 		  this.updateNextProgress =  this.updateNextProgress.bind(this);
@@ -195,6 +196,8 @@ class TrimCut extends Component<Props, State> {
     fileObject = new File([blob], fileName, {
       type: 'video/mp4'
    });
+   this.setState({uploadFilePath:this.state.fullpath})
+
    THIS.setState({publish:true});
 		 slider = await document.getElementById('slider');
 		 videotag = await document.getElementById('myVideo');
@@ -236,19 +239,24 @@ class TrimCut extends Component<Props, State> {
 
   }
   publish(){
-    this.props.yuppy.addFile({
-      // .use(Uppy.addFile, {
-         name: fileObject.name, // file name
-         type: this.props.typeV, // file type
-         data: fileObject, // file blob
-         // meta: {
-         //   // optional, store the directory path of a file so Uppy can tell identical files in different directories apart.
-         //   relativePath: webkitFileSystemEntry.relativePath,
-         // },
-         source: '#drag-drop-area', // optional, determines the source of the file, for example, Instagram.
-         isRemote: false, // optional, set to true if actual file is not in the browser, but on some remote server, for example,
-         // when using companion in combination with Instagram.
-       })
+    //localStorage.setItem('fileOBJ',fileObject)
+    var url = this.state.uploadFilePath;
+    var type = this.props.typeV;
+    var fileName = fileObject.name;
+    ipcRenderer.send('add-file',{url,fileName,type});
+    // this.props.yuppy.addFile({
+    //   // .use(Uppy.addFile, {
+    //      name: fileObject.name, // file name
+    //      type: this.props.typeV, // file type
+    //      data: fileObject, // file blob
+    //      // meta: {
+    //      //   // optional, store the directory path of a file so Uppy can tell identical files in different directories apart.
+    //      //   relativePath: webkitFileSystemEntry.relativePath,
+    //      // },
+    //      source: '#drag-drop-area', // optional, determines the source of the file, for example, Instagram.
+    //      isRemote: false, // optional, set to true if actual file is not in the browser, but on some remote server, for example,
+    //      // when using companion in combination with Instagram.
+    //    })
       //  document.getElementById('recCon').style.display = "flex";
       //  document.getElementById('trimCUT').style.display = "none";
        
@@ -280,7 +288,7 @@ class TrimCut extends Component<Props, State> {
   async reset(){
     var THIS = this;
     var fileName = this.props.FileObject.name;
-
+    this.setState({uploadFilePath:this.state.fullpath})
     var blob = new Blob(this.props.recordedChunks)
     
     fileObject = new File([blob], fileName, {
@@ -350,6 +358,7 @@ class TrimCut extends Component<Props, State> {
               videotag.pause();
               THIS.setState({publish:true});
               $('.second').hide();
+              this.setState({uploadFilePath:fileName});
               // var url = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));;
               // THIS.setState({videoSrc2:url});
             })
@@ -468,6 +477,7 @@ class TrimCut extends Component<Props, State> {
                         });
                         videotag.pause();
                         THIS.setState({publish:true});
+                        this.setState({uploadFilePath:outputName3});
                         console.log('Merging finished !');
                       })
                       

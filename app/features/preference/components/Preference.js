@@ -108,6 +108,8 @@ class Preference extends Component<Props, State> {
             launch: localStorage.getItem('launch')
         };
         this.checkbox = this.checkbox.bind(this);
+        document.getElementsByClassName('navigation-right')[0].style.display = 'none';
+
     }
   
     /**
@@ -119,6 +121,8 @@ class Preference extends Component<Props, State> {
      * @returns {void}
      */
     componentDidMount() {
+        document.getElementsByClassName('navigation-right')[0].style.display = 'none';
+
         // ipcRenderer.send( 'resize-to-default' );
         // this.props.dispatch(push('/', {
         //     token:''

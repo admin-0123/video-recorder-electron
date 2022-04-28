@@ -135,9 +135,11 @@ class Video extends Component<Props, State> {
             // square, rectangle, default is circle
         <div className={'Main-video ' + this.state.viewClass}>
          <div className="vid_wrapper">
+          
           { this.renderLandingPage() }
           </div>
           <div className="videoOrient">
+          {/* <div  style={{"-webkit-app-region":"drag"}}>drag</div> */}
           <div onClick={ () => { this.viewLayout('circle') } } className="vid_circle"></div>
           <div onClick={ () => { this.viewLayout('square') } } className="vid_square">1:1</div>
           <div onClick={ () => { this.viewLayout('rectangle') } } className="Vid_rect"></div>

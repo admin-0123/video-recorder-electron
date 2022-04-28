@@ -1803,7 +1803,7 @@ console.log(yuppy);
         })
         .use(Uppy.AwsS3Multipart, {
             limit: 2,
-            companionUrl: 'https://adilo.bigcommand.com/api'
+            companionUrl: `${config.apiUrl}api`
         })
         uppy.on('file-added', (file) => {
             console.log(file);
@@ -1853,7 +1853,7 @@ console.log(yuppy);
             var obj = {
               method: 'post',
               responseType: 'json',
-              url: 'https://adilo.bigcommand.com/api/video-upload/s3-sign/save',
+              url: `${config.apiUrl}api/video-upload/s3-sign/save`,
               headers: { 
                   'Authorization': `Bearer ${token}`
               },
@@ -2063,7 +2063,7 @@ console.log(yuppy);
                         <Form.Group className="my-3 w-100 text-left drawingTool" controlId="chk1">
                           <Form.Check type="checkbox" onChange={ e => {this.drawing_tool(e) }} label="Drawing tools" />
                       </Form.Group>
-                      <div style={{display:this.state.uploadInProg ? 'block' : 'none'}} className="UploadMessage">
+                      <div style={{display:this.state.uploadInProg ? 'none' : 'none'}} className="UploadMessage">
                           Uploading status <a  onClick={ () => {this.viewStatus('open') }} className="showUpload">View status</a>
                       </div>
                       <div  style={{display:this.state.uploadInProgSHow ? 'block' : 'none'}} className="UploadOuter">
