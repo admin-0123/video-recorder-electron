@@ -1,0 +1,166 @@
+.profileImage {
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profileImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileNav {
+    padding: 18px 16px;
+    background: #fff;
+}
+.btn#profileDropdown {
+    padding: 0;
+    color: var(--primary);;
+    font-size: 12px;
+    border: 0;
+    height: auto;
+}
+
+.profileMeta {padding-left: 14px;}
+
+.profileMeta label {
+    font-size: 13px;
+    color: var(--primary);;
+}
+button.recButton {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    max-width: 140px;
+        width: 50%;
+}
+
+button.recButton svg {
+    width: 100%;
+}
+.entry-container.entry-container.recContainer {
+    padding: 0 38px 0px 38px;
+    overflow-y: auto;
+}
+button.btn-text {
+    border: 0;
+    background: transparent;
+}
+.recPreview {
+    width: 50%;
+    max-width: 240px;
+    margin-left: 20px;
+}
+.redRightInner {
+    background: #929292;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.recContainer h3, .recContainer button.btn-text {
+    font-size: 20px;
+    text-align: left;
+    margin-top: 10px;
+    color: #172B4D;
+    text-transform: none;
+}
+.rec_left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+.recordingCInner {
+    display: flex;
+    min-width: 230px;
+}
+
+.recTimeTool {
+    display: flex;
+    align-items: center;
+}
+.toolRight {
+    position: relative;
+    padding-left: 5px;
+    margin-left: 10px;
+}
+
+.toolRight:before {content: "";background: #DADEE2;width: 1px;height: 17px;position: absolute;left: 0;top: 6px;}
+
+span.recTime {
+    width: 50px;
+    font-size: 10px;
+    height: 50px;
+    display: flex;
+    align-items: end;
+    background: #E75555;
+    color: #fff;
+    justify-content: center;
+    padding: 3px 3px;
+    flex-shrink: 0;
+}
+.recordingCountDown {
+    width: 100%;
+    height: 100%;
+    font-size: 55vw;
+    align-items: center;
+    justify-content: center;
+    
+    font-weight: bold;
+    background: #E75555;
+    color: #fff;
+}
+.recordingCounter {
+    justify-content: flex-start;
+    width: 100%;
+    background: #fff;
+}
+
+.recTimeTool button {
+    background: transparent;
+    border: 0;
+    width: 40px;
+}
+.redRightInner select , .recContainer select {
+    border: 1px solid #F2F3FA;
+    background: rgb(255 255 255 / 70%);
+    font-size: 12px;
+    padding: 8px 20px;
+    border-radius: 5px;
+}
+.recRightRow {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.recRightRow label {
+    width: 90px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.recRightRow select {
+    flex-grow: 1;
+}
+
+.recToolIcon {
+    width: 50px;
+    padding: 0 12px;
+    text-align: center;
+}
+.landing {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 63px);
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+	min-height: 50px;
+}

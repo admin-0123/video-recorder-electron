@@ -1,0 +1,25 @@
+.remotePC-info {
+	text-align: center;
+	line-height: 1;
+	padding: 10px 20px 40px 20px;
+	font-size: 12px;
+	height: 220px;
+}
+#app {
+	height: 100%;
+    display: grid;
+}
+.check-update-box {
+	height: 32px;
+    padding: 6px;
+    font-size: 12px;
+    background: #f7f7f7;
+    border-top: 1px solid #ccc;
+}
+.updateAvailable .buttons {
+	padding-left: 10px;
+}
+.updateAvailable .buttons a {
+	padding: 2px 5px;
+	cursor:pointer;
+}

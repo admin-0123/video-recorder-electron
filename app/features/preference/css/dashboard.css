@@ -1,0 +1,31 @@
+.profileImage {
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profileImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileNav {
+    padding: 18px 16px;
+    background: #fff;
+}
+.btn#profileDropdown {
+    padding: 0;
+    color: var(--primary);;
+    font-size: 12px;
+    border: 0;
+    height: auto;
+}
+
+.profileMeta {padding-left: 14px;}
+
+.profileMeta label {
+    font-size: 13px;
+    color: var(--primary);;
+}

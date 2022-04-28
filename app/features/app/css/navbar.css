@@ -1,0 +1,43 @@
+
+    nav {
+        -webkit-app-region: drag;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* background-color: var(--accent-light); */
+        background-color: #0464CB;
+    }
+
+    .nav-side {
+        display: flex;
+        align-items: center;
+    }
+
+    a {
+        -webkit-app-region: no-drag;
+        user-select: none;
+        text-decoration: none;
+        padding: 8px 12px;
+        fill: #ffffff;
+    }
+
+    a:hover {
+        fill: var(--accent-light);
+        background: var(--dark-grey);
+    }
+
+    .active-tab, a {
+        transition: .5s fill, .4s background-color;
+    }
+
+
+    .active-tab:hover {
+        background-color: var(--dark-grey);
+        fill: var(--accent-light);
+
+    }
+
+    .active-tab {
+        fill: var(--accent-light);
+        background-color: var(--dark-grey);
+    }

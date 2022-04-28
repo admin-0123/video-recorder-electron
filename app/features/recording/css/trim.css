@@ -1,0 +1,121 @@
+.bgnewTrim{
+   background: azure !important;
+}
+.trimcut{
+   height: 700px;
+}
+.CutPreviewmyVideo {
+    display: none;
+}
+
+.videoContainer {
+    position: relative;
+    height: 0;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 35%;
+}
+
+.videoContainer video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.noUi-touch-area .first, .noUi-touch-area .last {
+    display: none;
+}
+
+.noUi-touch-area {
+    display: none;
+}
+
+span.drag.drag {
+    width: 30px;
+}
+
+.noUi-connect.noUi-connect.noUi-draggable {
+    background: #00acdc;
+}
+
+.noUi-horizontal.noUi-horizontal {
+    height: 25px;
+}
+
+.noUi-target.noUi-target {
+     background: #778d9d;
+     border: 0;
+     border-radius: 0;
+}
+
+.noUi-horizontal.noUi-horizontal .noUi-handle {
+    width: 20px;
+    border-radius: 0;
+    border: 0;
+    background: #555c6e;
+    box-shadow: none;
+}
+
+.noUi-handle.noUi-handle:before, .noUi-handle.noUi-handle:after {
+    left: 10px;
+}
+
+.noUi-handle.noUi-handle:after {
+    top: 100%;
+    width: 0;
+    height: 0;
+    border: 17px solid #555c6e;
+    border-right: 0;
+    border-left: 20px solid transparent;
+    border-bottom: 0;
+    background: transparent;
+    left: 0;
+}
+
+.noUi-handle-upper.noUi-handle-upper::after {/* border-top: 0; */border: 17px solid transparent;border-left: 17px solid #555c6e;border-top: 0;}
+
+.sliderContainer.sliderContainer {
+    display: flex;
+    margin-top: 50px;
+    align-items: center;
+}
+
+div#slider {
+    flex-grow: 1;
+}
+
+.sliderActionLeft.sliderActionLeft {
+    display: flex;
+    background: #2f3840;
+    border-radius: 5px;
+    margin-right: 30px;
+}
+
+.sliderActionLeft a {
+    color: #fff;
+    padding: 6px 14px;
+    display: inline-block;
+}
+
+.entry-container.entry-container.entry-container.recContainer {
+    overflow: visible;
+}
+
+.trimcut.trimcut {
+    height: auto;
+    margin-top: 50px;
+}
+
+.span_side{
+   margin: 0 0 0 19px;
+}
+.publish {
+      background: #37addc;
+      /* color: black; */
+      border-radius: 12px;
+}
+.publish a{
+  color: white;
+}
+.delete a{
+   color: red;
+}

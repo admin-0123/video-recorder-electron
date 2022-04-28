@@ -1,0 +1,217 @@
+:root{
+	--primary: #f8f8f800;
+	--primary2: #21455E;
+	--blue: #0364CB;
+	--light-blue: #00ACDC;
+	--form-border: #E2E5ED;
+	--form-active-border: #00ACDC;
+	--light-blue: #00ACDC;
+	--light-secondary: #BECFD8;
+	--gray : #849FBB;
+	--neonGreen : #EAF9FA;
+}
+/* body{
+	color: var(--primary);
+} */
+*{
+	box-sizing: border-box;
+}
+.dropdown-menu {
+    border-radius: 10px;
+    border-color: #EAEAEA;
+    box-shadow: 0px 0px 8px rgb(0 0 0 / 16%);
+    font-size: 12px;
+    padding: 0;
+	padding-top: 10px;
+	overflow: hidden;
+}
+
+.dropdown-menu a, .dropdown-menu a:hover {
+    padding: 6px 13px;
+    color: #182E45;
+}
+
+.dropdown-menu a:hover {
+    text-decoration: none;
+    font-weight: normal;
+}
+.dropdown-menu a.ItemHighlight {
+    background: var(--neonGreen);
+    font-weight: 600;
+}
+.notifClose {
+    padding-left: 15px;
+    width: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.notifClose:hover path {
+    fill: #182E45;
+}
+.notifDate {
+    font-size: 10px;
+    width: 45px;
+    flex-shrink: 0;
+    padding-right: 15px;
+}
+
+.notiText {
+    word-break: break-all;
+	font-weight: 200;
+}
+.unread .notiText {
+    font-weight: normal;
+}
+.dropdown-menu a.ItemHighlight.alt {
+    background: #EAF9FA;
+    color: #19ADB7;
+    font-size: 15px;
+    text-align: center;
+    padding: 6px 15px;
+    margin-top: 6px;
+}
+.notifDropdown {
+    min-width: 300px;
+}
+
+.notifDropdown a.d-flex {
+    padding: 0 0;
+}
+
+.notifDropdown .dropdown-item-text {
+    padding: 5px 15px;
+}
+.dropdown-xl.dropdown-menu a {
+    font-size: 14px;
+    padding: 9px 27px;
+}
+
+.dropdown-menu.dropdown-xl a.ItemHighlight {
+    font-size: 15px;
+    text-align: center;
+    padding: 11px 27px;
+}
+.noDropArrow .dropdown-toggle::after {
+    display: none;
+}
+.hoverIcon:hover svg path,
+.hoverIcon:hover svg circle {
+    fill: #3F4246;
+}
+.dropdown-item.active, .dropdown-item:active {
+	background-color: var(--gray);
+}
+.dropdown-item-text:hover{
+	background-color: #e9ecef;
+}
+.profileRight .dropdown-toggle.btn, .px-12.px-12.px-12{
+	padding-left: 12px;
+	padding-right: 12px;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.entry-container.entry-container {
+	 padding: 50px 30px 30px 30px;
+	 background: white;
+	 z-index: 10;
+	 border-radius: 0;
+	 width: 100%;
+	 height: 100%;
+}
+ .entry-container img {
+	 width: 220px;
+	 margin: auto;
+	 display: block;
+}
+ .entry-container .entry-box {
+	 width: 100%;
+}
+
+ .entry-container .entry-box .btn-primary-ouline {
+	 background-color: transparent;
+	 color: #333;
+	 border: 1px solid #333;
+	 font-weight: 400;
+	 font-size: 13px;
+}
+.nav-side {
+    padding-right: 4px;
+}
+a.logo {
+    padding: 9px 0 9px 30px;
+}
+
+a.logo svg {
+    max-width: 140px;
+}
+.form-control {
+    border: 1px solid var(--form-border);
+	height: 40px;
+	border-radius: 4px;
+	padding: 10px 13px;
+}
+.entry-box{
+	text-align: left;
+}
+.form-text a{
+	padding: 0;
+	color: var(--light-secondary);
+}
+.form-text a:hover, .btn-pill.pill-link{
+	color: var(--light-blue);
+	text-decoration: none;
+}
+.btn.btn {
+    height: 36px;
+    padding: 0 27px;
+    font-size: 16px;
+    font-weight: normal;
+    border-radius: 30px;
+	text-transform: none;
+}
+.btn.btn.btn-primary{
+	background-color: var(--blue);
+}
+.form-label {
+    font-size: 13px;
+}
+.f-14{
+	font-size: 14px;
+}
+.pill-wrapper {
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-pill.btn-pill {
+    width: 40%;
+    font-size: 20px;
+    padding: 0 0;
+    background: var(--gray);
+    color: var(--primary);
+    border-radius: 10px;
+    padding: 7px 20px;
+    height: 38px;
+    line-height: 1;
+}
+
+.btn-pill.pill-link {
+    background: transparent;
+    padding-left: 0;
+    padding-right: 6px;
+    width: auto;
+}
+.btn.btn-secondary-outline {
+    border: 1px solid var(--form-border);
+    color: #21455E;
+}
+.btn.btn-user-email {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px 0 5px;
+}

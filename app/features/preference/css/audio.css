@@ -1,0 +1,47 @@
+#meterGraph{
+    height:10px;
+    border:1px solid #000;
+    margin:10px 10px 10px 10px;
+}
+#meter{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;
+}
+#meterGraphDiv{
+    height:10px;
+    border:1px solid #000;
+    margin:10px 10px 10px 10px;
+}
+#meter-output{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;
+}
+#cpu-electron
+{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;    
+}
+
+#cpu-overall
+{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;    
+}
+
+#mem-electron
+{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;    
+}
+
+#mem-overall
+{
+    background: #00ff00;
+    width: 0%;
+    height: 100%;    
+}
