@@ -355,8 +355,11 @@ function downloadFile(fileName){
   ipcRenderer.send('download-button',{url,fileName});
   if(localStorage.getItem('openEditor') == 'true'){
     THIS.setState({trimCut:true}) 
+    localStorage.setItem('trim',true);
+    localStorage.setItem('trim',true);
     $('.fwyqgM').addClass('bgnewTrim')
-    ipcRenderer.send( 'full-screen',true);
+    //ipcRenderer.send( 'full-screen',true);
+    ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
   } else {
     var GO = 'yes';
     console.log('heree');
@@ -1005,6 +1008,7 @@ class Recording extends Component<Props, State> {
     }
     handler(){
       this.setState({trimCut:false});
+      localStorage.setItem('trim',false);
     }
     viewStatus(action) {
       if(action == 'close') {
@@ -1094,8 +1098,10 @@ class Recording extends Component<Props, State> {
           this.setState({uploadInProg:true}) 
           if(localStorage.getItem('openEditor') == 'true'){
             this.setState({trimCut:true}) 
+            localStorage.setItem('trim',true);
             $('.fwyqgM').addClass('bgnewTrim')
-            ipcRenderer.send( 'full-screen',true);
+             ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
+            //ipcRenderer.send( 'full-screen',true);
           }
         
 
@@ -1596,7 +1602,9 @@ console.log(yuppy);
       }
 
       showcustomSelection(){
+        document.getElementsByClassName('nav_bar')[0].style.display = 'none';
         ipcRenderer.send( 'full-screen',true);
+       //ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
         dragElement(document.getElementById("mydiv"));
                 // Query all resizers
         const ele = document.getElementById('mydiv');
@@ -1780,6 +1788,7 @@ console.log(yuppy);
         //     token:''
         // }));
         // this.props.dispatch(startOnboarding('welcome-page'));
+        localStorage.setItem('trim',false);
         await this.Upfn();
         this.getVideoSources();   
         console.log(recordedChunks);
@@ -2114,7 +2123,7 @@ console.log(yuppy);
                     {/* <h3>Recording settings</h3> */}
                     <div className='recRightRow'>
                     <button  onClick={ () => {this.getVideoSources() }} id="videoSelectBtn" className="button btn-text is-text">
-                      Choose a Video Source
+                    Select your inputs 
                       </button>
           
                     </div>
@@ -2192,7 +2201,7 @@ console.log(yuppy);
                             
                         </div>
                       <canvas style={{opacity:0}}  id="selection"></canvas>
-                     <button style={{position: 'fixed'}} onClick={ () => {crop() }}  className="btn-crop js-crop">Crop<img className="icon-crop" src="https://tympanus.net/Tutorials/ImageResizeCropCanvas/img/crop.svg"></img></button>
+                     <button style={{position: 'fixed'}} onClick={ () => {crop() }}  className="btn-crop js-crop">Crop<svg style={{width:"87px"}} xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.2" viewBox="0 0 148.979 148.979" width="149"><g transform="translate(-1166.021 -142.021)"><g transform="translate(1166.021 142.021)"><path d="M167.183,107.592A59.592,59.592,0,1,1,107.592,48,59.591,59.591,0,0,1,167.183,107.592Zm0,0" transform="translate(-33.102 -33.102)" fill="#fccfcf"></path><path d="M74.49,148.979a74.49,74.49,0,1,1,74.49-74.49A74.49,74.49,0,0,1,74.49,148.979Zm0-144.013A69.524,69.524,0,1,0,144.013,74.49,69.524,69.524,0,0,0,74.49,4.966Zm0,0" fill="#e75555"></path><path d="M197.524,162.762A34.762,34.762,0,1,1,162.762,128,34.762,34.762,0,0,1,197.524,162.762Zm0,0" transform="translate(-88.272 -88.272)" fill="#e61717"></path></g><text transform="translate(1214 226)" fill="#fff" fontSize="28" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="0" y="0">REC</tspan></text></g></svg></button>
                     </div>
                 </div>
 

@@ -7,6 +7,12 @@
 .CutPreviewmyVideo {
     display: none;
 }
+#CutPreviewmyVideo{
+    object-fit: fill;
+}
+#myVideo{
+    object-fit: fill;
+}
 
 .videoContainer {
     position: relative;

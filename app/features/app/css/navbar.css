@@ -1,6 +1,7 @@
 
     nav {
         -webkit-app-region: drag;
+        height: 31px;
         display: flex;
         justify-content: space-between;
         align-items: center;

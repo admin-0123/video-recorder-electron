@@ -30,7 +30,7 @@ import '../css/dashboard.css';
 import '../css/electron-app.css';
 import config from '../../config';
 
-
+var proID ;
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;
 let ipcMain  =  window.snapNodeAPI.ipcMain;
 let shell  =  window.snapNodeAPI.shell;
@@ -205,6 +205,15 @@ class DashboardPage extends Component<Props, State> {
             };
         });
         uppy.on('upload-success', async (file, response) => {
+            if(getStoreSingle('selectedWorkspaceUId') == null ) {
+                if(all_projects.length > 0 ) {
+                    proID = all_projects[0].id;
+                    setStoreSingle('selectedWorkspaceUId',all_projects[0].id);
+                }
+            }
+            //  alert(getStoreSingle('selectedWorkspaceUId'));
+            //  alert(proID);
+           
             console.info(file)
             console.info(response)
             var key = response.uploadURL
@@ -219,7 +228,7 @@ class DashboardPage extends Component<Props, State> {
               },
               // video_id: $this.video_id,
               video_id: arr[3],
-              project_id: selectedWorkspaceUId,
+              project_id: getStoreSingle('selectedWorkspaceUId'),
               fileType: file.type,
               // duration: Math.floor(this.duration),
               // duration_formatted: $this.convertSecondsToTime(this.duration),

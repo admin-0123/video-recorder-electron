@@ -117,10 +117,10 @@
 	bottom: 5px;
 	padding: 6px 10px;
 	z-index: 999;
-	background-color: rgb(222,60,80);
+	/* background-color: rgb(222,60,80); */
 	border: none;
 	border-radius: 5px;
-	color: #FFF;
+	/* color: #FFF; */
 }
 
 .btn-crop img {
@@ -198,9 +198,9 @@ button#btn-start-recording {
 }
 button.btn-crop.js-crop {
  font-size: 0;
-    width: 60px;
+    /* width: 60px;
     height: 60px;
-    padding: 10px;
+    padding: 10px; */
     right: 30px;
     bottom: 20px;
 }

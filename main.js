@@ -586,7 +586,7 @@ function createSnapByteWindow() {
             child.loadURL(indexURL+'?action='+title+'&mid='+id);
 
             child.show();
-            //child.setAlwaysOnTop(true)
+            child.setAlwaysOnTop(true)
             child.webContents.on('did-finish-load',() => {
                 child.setTitle(childTitle)
 
@@ -881,9 +881,9 @@ ipcMain.on("win::exit", (data) =>{  console.log(data.sender)
     if(data.sender.id ==1) {
         mainWindow.hide()
     }
-    //  else if(data.sender.id == 4 || data.sender.id == 3 ) {
-    //     if(child2) {
-    //        child2.close();
+    //  else if(data.sender.id == 10 ) {
+    //     if(child) {
+    //         mainWindow.webContents.send("warning");
     //    }
         
     // }  

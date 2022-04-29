@@ -1,7 +1,7 @@
 
 export default {
-    apiUrl:"https://adilo.bigcommand.io/",
-    //apiUrl:"https://adilo.bigcommand.com/",
+    //apiUrl:"https://adilo.bigcommand.io/",
+    apiUrl:"https://adilo.bigcommand.com/",
     //apiUrl:"http://127.0.0.1:8000/",
     /**
      * The URL with extra information about the app / service.
@@ -16,7 +16,7 @@ export default {
     /**
      * Application name.
      */
-    appName: 'Adilo',
+    appName: 'ADILO Recorder',
 
     /**
     * The prefix for application protocol.

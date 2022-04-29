@@ -1,9 +1,9 @@
 {
-  "name": "adilo",
-  "version": "22.4.2",
+  "name": "adilo-recorder",
+  "version": "22.4.3",
   "description": "adilo App",
   "main": "./build/main.js",
-  "productName": "adilo",
+  "productName": "ADILO Recorder",
   "private": true,
   "scripts": {
     "start": "webpack --config ./webpack.main.js --mode development && concurrently \"npm:watch\" \"electron ./build/main.js\"",
@@ -19,8 +19,8 @@
     "node": ">=14.0.0"
   },
   "build": {
-    "appId": "org.alio.byte",
-    "productName": "alio",
+    "appId": "org.adilorecorder.byte",
+    "productName": "ADILO Recorder",
     "generateUpdatesFilesForAllChannels": true,
     "afterSign": "./notarize.js",
     "files": [
@@ -32,7 +32,7 @@
       "!app/bin/ffprobe/**/*"
     ],
     "mac": {
-      "artifactName": "alio-${version}.${ext}",
+      "artifactName": "adilo-recorder-${version}.${ext}",
       "target": [
         {
           "arch": "universal",
@@ -90,7 +90,7 @@
       ]
     },
     "win": {
-      "artifactName": "adilo-${version}.${ext}",
+      "artifactName": "adilo-recorder-${version}.${ext}",
       "extraResources": [
         {
           "from": "node_modules/ffmpeg-static-electron/bin/win/x64"
