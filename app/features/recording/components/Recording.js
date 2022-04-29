@@ -264,8 +264,8 @@ async function getScreenStream(callback) {
           if(timeleft <= 0) {
               clearInterval(downloadTimer);
               timeleft = 3;
+              TH.setState({countDown:false});
               mediaRecorder.start();
-              TH.startTimer();
         
               //document.querySelector('#btn-stop-recording').style.display = 'inline';
               ipcRenderer.send( 'full-screen',false);
@@ -275,6 +275,8 @@ async function getScreenStream(callback) {
               document.getElementsByClassName('nav_bar')[0].style.display = 'none';
               ipcRenderer.send('resize-window', 'recording', 50, 250, false, false );
               startBtn.classList.add('is-danger');
+
+              TH.startTimer();
           } else {
             timeleft--;
           }
@@ -1675,6 +1677,7 @@ console.log(yuppy);
     }
 
     startTimer(){
+      ipcRenderer.send('setPosition',window.screen.availLeft);
       this.stopTimer();
       startTime = Date.now();
       timerInterval = setInterval(this.renderTime, 50);

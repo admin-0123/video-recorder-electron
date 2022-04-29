@@ -586,7 +586,7 @@ function createSnapByteWindow() {
             child.loadURL(indexURL+'?action='+title+'&mid='+id);
 
             child.show();
-            child.setAlwaysOnTop(true)
+            //child.setAlwaysOnTop(true)
             child.webContents.on('did-finish-load',() => {
                 child.setTitle(childTitle)
 
@@ -699,6 +699,26 @@ function createSnapByteWindow() {
           mainWindow.webContents.send("uploadFIle",{url,fileName,type});
         
         });
+        ipcMain.on('dashboard-focus', (event,action) =>  {
+            if(mainWindow) {
+                mainWindow.show()
+                mainWindow.restore();
+                mainWindow.focus();
+            }
+            
+            //console.log('ful');
+        
+        });
+        ipcMain.on('setPosition', (event,action) =>  {
+            if(child) {
+                console.log(action);
+                child.setPosition(action,0)
+               
+            }
+        
+        //console.log('ful');
+    
+    });
 
     /**
      * When someone tries to enter something like -meet://test

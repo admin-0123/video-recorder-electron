@@ -9,6 +9,7 @@ import { Wrapper } from '../styled';
 import '../css/video-app.css';
 import config from '../../config';
 import $ from 'jquery';
+import icons8drag50 from '../../../images/icons8-drag-50.png';
 
 type Props = {
 
@@ -134,16 +135,20 @@ class Video extends Component<Props, State> {
         return (
             // square, rectangle, default is circle
         <div className={'Main-video ' + this.state.viewClass}>
+        
          <div className="vid_wrapper">
           
           { this.renderLandingPage() }
           </div>
+          <div className="dragcon">
+            <span className='containerim'><img style={{height:"26px","-webkit-app-region":"drag"}}  src={icons8drag50}/></span>
+          </div>
           <div className="videoOrient">
-          {/* <div  style={{"-webkit-app-region":"drag"}}>drag</div> */}
-          <div onClick={ () => { this.viewLayout('circle') } } className="vid_circle"></div>
-          <div onClick={ () => { this.viewLayout('square') } } className="vid_square">1:1</div>
-          <div onClick={ () => { this.viewLayout('rectangle') } } className="Vid_rect"></div>
-          <div onClick={ () => { this.closeCam('square') } } className="Vid_close">+</div>
+         
+            <div onClick={ () => { this.viewLayout('circle') } } className="vid_circle"></div>
+            <div onClick={ () => { this.viewLayout('square') } } className="vid_square">1:1</div>
+            <div onClick={ () => { this.viewLayout('rectangle') } } className="Vid_rect"></div>
+            <div onClick={ () => { this.closeCam('square') } } className="Vid_close">+</div>
           </div>
     
         </div>

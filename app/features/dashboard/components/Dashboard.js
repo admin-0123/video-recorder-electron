@@ -163,7 +163,7 @@ class DashboardPage extends Component<Props, State> {
         this.getFiles();
          uppy = new Uppy.Core({
             debug: true,
-            autoProceed: false,
+            autoProceed: true,
             allowMultipleUploadBatches: true,
 
             restrictions: {
@@ -276,6 +276,7 @@ class DashboardPage extends Component<Props, State> {
      
     }
     uploadfile(path,type,filename){
+        ipcRenderer.send('dashboard-focus');
         fs.readFile(path , async function (err, data) {
             const blob = new Blob([data.buffer], {type: '*'})
             // var audioURL = window.URL.createObjectURL(blob);
@@ -386,9 +387,23 @@ class DashboardPage extends Component<Props, State> {
        // console.log(e);
 
         const userData = getStore('user_Data');
-        const selectedWorkspaceId = getStoreSingle('selectedWorkspaceId');
+     
         const token = getStoreSingle('user_token');
-        const { user ,session} = userData;
+        const { user ,session,all_projects} = userData;
+        console.log( getStoreSingle('selectedWorkspaceId'));
+        console.log( "getStoreSingle('selectedWorkspaceId')");
+        console.log( all_projects);
+        if( getStoreSingle('selectedWorkspaceId') == null || getStoreSingle('selectedWorkspaceUId') == null || getStoreSingle('selectedWorkspaceIdName') == null) {
+            if(all_projects.length > 0 ) {
+                setStoreSingle('selectedWorkspaceId',all_projects[0].project_id);
+                setStoreSingle('selectedWorkspaceUId',all_projects[0].id);
+                setStoreSingle('selectedWorkspaceIdName',all_projects[0].title);
+            }
+           
+        }
+        const selectedWorkspaceId = getStoreSingle('selectedWorkspaceId');
+        console.log(selectedWorkspaceId);
+        console.log( "2");
         var data ={
             "id": selectedWorkspaceId,
             // "page":this.state.pagination.current_page,

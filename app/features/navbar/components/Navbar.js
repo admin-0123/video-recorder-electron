@@ -167,6 +167,13 @@ class Navbar extends Component<Props, *> {
      */
     render() {
         const { user ,session,notification_data,owner,all_projects} = this.props._userData;
+       
+        if( getStoreSingle('selectedWorkspaceIdName') == null) {
+            if(all_projects.length > 0 ) {  
+                setStoreSingle('selectedWorkspaceIdName',all_projects[0].title);
+            }
+           
+        }
         console.log("this.props._userData");
         console.log(this.props._userData);
         console.log(notification_data);

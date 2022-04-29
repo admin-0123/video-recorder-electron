@@ -215,3 +215,6 @@ a.logo svg {
     justify-content: space-between;
     padding: 0 15px 0 5px;
 }
+.uppy-StatusBar-actions {
+    right: 15px;
+}
