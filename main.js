@@ -586,7 +586,7 @@ function createSnapByteWindow() {
             child.loadURL(indexURL+'?action='+title+'&mid='+id);
 
             child.show();
-            child.setAlwaysOnTop(true)
+            //child.setAlwaysOnTop(true)
             child.webContents.on('did-finish-load',() => {
                 child.setTitle(childTitle)
 

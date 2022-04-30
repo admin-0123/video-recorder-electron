@@ -103,15 +103,15 @@ span.recTime {
     flex-shrink: 0;
 }
 .recordingCountDown {
-    width: 100%;
-    height: 100%;
-    font-size: 55vw;
-    align-items: center;
-    justify-content: center;
-    
-    font-weight: bold;
-    background: #E75555;
-    color: #fff;
+    width: 90px;
+        height: 90px;
+        font-size: 60px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+        background: #E75555;
+        color: #fff;
 }
 .recordingCounter {
     justify-content: flex-start;

@@ -7,19 +7,14 @@
 .CutPreviewmyVideo {
     display: none;
 }
-#CutPreviewmyVideo{
-    object-fit: fill;
-}
-#myVideo{
-    object-fit: fill;
-}
+
 
 .videoContainer {
     position: relative;
     height: 0;
-    width: 90%;
+    width: 73%;
     margin: 0 auto;
-    padding-bottom: 35%;
+    padding-bottom: 41%;
 }
 
 .videoContainer video {
@@ -54,30 +49,33 @@ span.drag.drag {
 }
 
 .noUi-horizontal.noUi-horizontal .noUi-handle {
-    width: 20px;
-    border-radius: 0;
-    border: 0;
-    background: #555c6e;
-    box-shadow: none;
+    width: 23px;
+        height: 36px;
+        border-radius: 0;
+        border: 0;
+        /* background: #555c6e; */
+        box-shadow: none;
+        background: transparent;
+        top: auto;
+        bottom: -25px;
+        right: -4px;
 }
 
-.noUi-handle.noUi-handle:before, .noUi-handle.noUi-handle:after {
-    left: 10px;
+.noUi-handle img {
+    width: 100% !important;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
 }
 
-.noUi-handle.noUi-handle:after {
-    top: 100%;
-    width: 0;
-    height: 0;
-    border: 17px solid #555c6e;
-    border-right: 0;
-    border-left: 20px solid transparent;
-    border-bottom: 0;
-    background: transparent;
-    left: 0;
+.noUi-handle:before, .noUi-handle:after {
+    display: none !important;
+}
+.noUi-handle.noUi-handle-upper {
+    right: -20px !important;
 }
 
-.noUi-handle-upper.noUi-handle-upper::after {/* border-top: 0; */border: 17px solid transparent;border-left: 17px solid #555c6e;border-top: 0;}
+
 
 .sliderContainer.sliderContainer {
     display: flex;
@@ -91,19 +89,138 @@ div#slider {
 
 .sliderActionLeft.sliderActionLeft {
     display: flex;
-    background: #2f3840;
+    background: #494E53;
     border-radius: 5px;
     margin-right: 30px;
+    overflow: hidden;
 }
 
 .sliderActionLeft a {
     color: #fff;
-    padding: 6px 14px;
+    padding: 8px 15px 6px 15px;
     display: inline-block;
 }
 
 .entry-container.entry-container.entry-container.recContainer {
     overflow: visible;
+   
+}
+#recCon{
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px #00000061;
+}
+.sliderActionLeft.sliderActionLeft a {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none !important;
+}
+
+.sliderActionLeft.sliderActionLeft svg {
+    height: 22px;
+    opacity: 1;
+}
+
+.sliderActionLeft.sliderActionLeft span {
+    margin-top: 3px;
+    opacity: 1;
+}
+span#videoPlay {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+span#videoPlay {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+span#videoPlay:before {content: "";border-right: 0;border: 13px solid transparent;border-left: 20px solid #00acdc;display: inline-block;border-right: 0;transition: all .3s;}
+
+span#videoPlay.pause:before, span#videoPlay.pause:after {content: "";border: 0;width: 7px;height: 100%;background: #00acdc;display: inline-block;}
+
+span#videoPlay.pause:after {
+    margin-left: 4px;
+}
+
+a.undoVideo svg {
+    opacity: .3;
+    width: 20px;
+}
+
+a.redoVideo svg {
+    opacity: .3;
+    width: 20px; 
+}
+span.span_side span {
+    font-weight: lighter;
+    color: rgb(33 69 94 / 50%);
+}
+
+a.redoVideo, a.undoVideo {
+    padding: 7px 8px;
+}
+
+span.span_side {
+    color: #21455E;
+    font-size: 20px;
+    margin: 0 20px 0 35px;
+}
+
+.videoAction {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 30px;
+}
+
+span.publish {
+    min-width: 192px;
+    padding: 5px 15px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+span.delete {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+div#recordOuter {
+    height: 100%;
+}
+
+a.redoVideo.active svg, a.undoVideo.active svg {
+    opacity: 1;
+}
+
+span#videoPlay:before {content: "";border-right: 0;border: 13px solid transparent;border-left: 20px solid #00acdc;display: inline-block;border-right: 0;transition: all .3s;}
+
+span#videoPlay.pause:before, span#videoPlay.pause:after {content: "";border: 0;width: 7px;height: 100%;background: #00acdc;display: inline-block;}
+
+span#videoPlay.pause:after {
+    margin-left: 4px;
+}
+
+svg#scissors {
+    height: 17px;
+    margin-top: 3px;
+}
+
+.sliderActionLeft.sliderActionLeft a.active {
+    background: #2f3840;
+}
+
+.sliderActionLeft.sliderActionLeft a.active span, .sliderActionLeft.sliderActionLeft a.active svg {
+    opacity: .4;
 }
 
 .trimcut.trimcut {

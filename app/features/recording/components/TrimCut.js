@@ -215,10 +215,12 @@ class TrimCut extends Component<Props, State> {
 				'max': this.state.totalDuration
 			},
 		});
-		const lower = document.querySelector('.noUi-handle-lower .noUi-touch-area');
-		lower.innerHTML = '<span class="first">0:00:00</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
-		const upper = document.querySelector('.noUi-handle-upper .noUi-touch-area');
-		upper.innerHTML = '<span class="last">' + this.calculateTimeDuration(this.state.totalDuration) + '</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
+		const lower = document.querySelector('.noUi-handle-lower');
+		//lower.innerHTML = '<img src="https://i.ibb.co/GPVBrF1/Group-13463.png" alt="Group-13463" border="0"><span class="first">0:00:00</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
+    lower.innerHTML = '<img src="https://i.ibb.co/JcgbzpP/Group-13462.png" alt="Group-13463" border="0">';
+		const upper = document.querySelector('.noUi-handle-upper');
+		//upper.innerHTML = '<img src="https://i.ibb.co/JcgbzpP/Group-13462.png" alt="Group-13462" border="0"><span class="last">' + this.calculateTimeDuration(this.state.totalDuration) + '</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
+    upper.innerHTML = '<img src="https://i.ibb.co/GPVBrF1/Group-13463.png" alt="Group-13462" border="0">';
 		if (slider && slider.noUiSlider) {
             slider.noUiSlider.on('change', this.updateNextProgress);
         }
@@ -229,10 +231,10 @@ class TrimCut extends Component<Props, State> {
 		this.setState({startTime :step[0]});
 		this.setState({endTime :step[1]});
 		videotag.currentTime = this.state.startTime;
-		const lower = document.querySelector('.noUi-handle-lower .noUi-touch-area .first');
-		lower.innerHTML = this.calculateTimeDuration(this.state.startTime);
-		const upper = document.querySelector('.noUi-handle-upper .noUi-touch-area .last');
-		upper.innerHTML = this.calculateTimeDuration(this.state.endTime);
+	//	const lower = document.querySelector('.noUi-handle-lower .noUi-touch-area .first');
+		//lower.innerHTML = this.calculateTimeDuration(this.state.startTime);
+		//const upper = document.querySelector('.noUi-handle-upper .noUi-touch-area .last');
+		//upper.innerHTML = this.calculateTimeDuration(this.state.endTime);
     this.setState({canEdit:true});
 	}
   callback(){
@@ -596,18 +598,21 @@ class TrimCut extends Component<Props, State> {
                   </g>
                 </g>
               </svg>
+              <span>Trim</span>
               </a>
               <a href='#' onClick={()=>{ this.cut() }}><svg id="scissors" xmlns="http://www.w3.org/2000/svg" width="33.209" height="29.509" viewBox="0 0 33.209 29.509">
                   <g id="Group_93" data-name="Group 93" transform="translate(0 0)">
                     <path id="Path_77" data-name="Path 77" d="M33.209,33.628a4.89,4.89,0,0,0-6.777-1.234l-11.27,7.891-4.1-2.87A5.926,5.926,0,1,0,8.569,39.76l5.019,3.514L8.57,46.789a5.932,5.932,0,1,0,2.494,2.345l4.1-2.87,11.27,7.891a4.89,4.89,0,0,0,6.777-1.235L19.431,43.275ZM5.943,37.537a3.074,3.074,0,1,1,3.074-3.074A3.074,3.074,0,0,1,5.943,37.537Zm0,17.624a3.074,3.074,0,1,1,3.074-3.074A3.074,3.074,0,0,1,5.943,55.161Z" transform="translate(0 -28.52)" fill="#fff"/>
                   </g>
                 </svg>
+                <span>Cut</span>
                 </a>
             </span>
           }
+          <span id='videoPlay' className=''></span>
           <div id='slider'></div>
           <span className='span_side'>
-              {this.calculateTimeDuration(this.state.startTime)} /
+             <span> {this.calculateTimeDuration(this.state.startTime)} </span> /
                 {this.calculateTimeDuration(this.state.endTime) == "0:00:00" ?
                 this.calculateTimeDuration(this.state.totalDuration)
                 :
@@ -615,29 +620,31 @@ class TrimCut extends Component<Props, State> {
                 }
             </span>
            <span>
-              <a href='#' onClick={()=>{ this.reset() }}>
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-                width="20px" height="20px" viewBox="0 0 512.000000 512.000000"
-                preserveAspectRatio="xMidYMid meet">
+              <a className='undoVideo active' href='#' onClick={()=>{ this.reset() }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="38.236" height="40.193" viewBox="0 0 38.236 40.193">
+  <g id="circular-left-arrow" transform="translate(0 9.905) rotate(-20)">
+    <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
+      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.435A11.7,11.7,0,0,1,2.8,17.752a1.4,1.4,0,0,0-2.8,0A14.479,14.479,0,1,0,16.99,3.5a.68.68,0,0,1-.553-.645V.308c0-.309-.194-.4-.433-.206L10.848,4.317a.439.439,0,0,0,0,.708L16,9.24c.239.2.433.1.433-.205V6.8a.441.441,0,0,1,.549-.453,11.681,11.681,0,0,1-2.507,23.091Z" transform="translate(0)" fill="#c2c9db"/>
+    </g>
+  </g>
+</svg>
 
-                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                fill="#000000" stroke="none">
-                <path d="M2730 4493 c-556 -39 -1056 -295 -1401 -719 -191 -234 -336 -541
-                -398 -839 -12 -55 -27 -166 -33 -247 l-12 -148 -161 159 c-135 135 -166 160
-                -198 166 -118 22 -220 -86 -188 -198 11 -36 60 -89 334 -364 364 -364 357
-                -359 465 -328 55 16 67 27 379 338 274 275 323 328 334 365 32 111 -70 219
-                -188 198 -33 -7 -68 -37 -247 -214 l-208 -207 5 145 c12 310 98 584 261 835
-                451 693 1359 940 2098 570 393 -196 693 -542 828 -954 62 -190 74 -274 74
-                -511 0 -185 -3 -229 -22 -317 -128 -589 -539 -1052 -1096 -1235 -324 -106
-                -700 -107 -1015 -3 -120 40 -296 124 -388 185 -35 23 -67 39 -72 36 -5 -3 -48
-                -60 -96 -126 -101 -140 -107 -116 50 -211 318 -192 636 -279 1011 -279 366 1
-                685 86 989 265 597 351 965 994 965 1685 0 1022 -782 1868 -1804 1950 -124 10
-                -168 10 -266 3z"/>
-                </g>
-                </svg>
+                </a>
+                <a href='#' className='redoVideo'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="38.235" height="40.192" viewBox="0 0 38.235 40.192">
+  <g id="circular-left-arrow" transform="translate(11.024) rotate(20)">
+    <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
+      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.434A11.7,11.7,0,0,0,26.161,17.752a1.4,1.4,0,0,1,2.8,0A14.479,14.479,0,1,1,11.969,3.495a.68.68,0,0,0,.553-.645V.308c0-.309.194-.4.433-.206l5.157,4.215a.439.439,0,0,1,0,.708L12.954,9.24c-.239.2-.433.1-.433-.205V6.8a.441.441,0,0,0-.549-.453,11.681,11.681,0,0,0,2.507,23.09Z" fill="#c2c9db"/>
+    </g>
+  </g>
+</svg>
+
                 </a>
             </span>
-            {this.state.publish  &&
+   
+        </div>
+        <div className='videoAction'>
+        {this.state.publish  &&
               <span className='publish'>
                 <a href='#' onClick={()=>{ this.publish() }}>Publish</a>
               </span>
