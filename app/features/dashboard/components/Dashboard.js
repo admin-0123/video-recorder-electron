@@ -140,6 +140,10 @@ class DashboardPage extends Component<Props, State> {
             //console.log(action);
         
         });
+        ipcRenderer.on('startRec', (event) =>  {
+            this.record()
+        
+        });
         
 
         const userData = getStore('user_Data');

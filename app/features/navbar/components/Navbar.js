@@ -127,7 +127,7 @@ class Navbar extends Component<Props, *> {
      */
      openPage(action) {
         if(action == 'preference') {
-            ipcRenderer.send('open-child', 'preference','Preference', 400, 420, false, false );
+            ipcRenderer.send('open-child', 'preference','Preference', 400, 510, false, false );
         } else if(action == 'update') {
             ipcRenderer.send('open-child', 'update','Check for update', 443, 315, false, false );
         } else if(action == 'openHelp') {

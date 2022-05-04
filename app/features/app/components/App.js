@@ -171,6 +171,8 @@ class App extends Component<*> {
                         </a>
                     </div>
                 </nav>
+
+                  
                 <Router history = { history }>
                     <Switch>
                         <Route

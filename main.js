@@ -7,6 +7,7 @@ const {
     app,
     ipcMain,
     Tray,
+    globalShortcut 
 } = require('electron');
 const {download} = require('electron-dl');
 
@@ -131,10 +132,7 @@ function tray(basePath) {
                         child.restore();
                          //shutdown();
                      } else {
-                        mainWindow.show()
-                        mainWindow.restore();
-                        mainWindow.focus();
-                        mainWindow.webContents.executeJavaScript(`$('.checkupdate').click()` );
+                        mainWindow.webContents.send("startRec");
                      }
                 } else {
                     app.quit();
@@ -234,6 +232,18 @@ function tray(basePath) {
             //traym.setTitle('hello world')
             let trayMenu = Menu.buildFromTemplate(trayMenuTemplate)
             traym.setContextMenu(trayMenu)
+            globalShortcut.register('Alt+CommandOrControl+5', () => {
+                console.log('Electron loves global shortcuts!')
+                mainWindow.webContents.send("startRec");
+            })
+            globalShortcut.register('Alt+CommandOrControl+6', () => {
+                console.log('Electron loves global shortcuts!')
+                child.webContents.send("pauseRec");
+            })
+            globalShortcut.register('Alt+CommandOrControl+7', () => {
+                console.log('Electron loves global shortcut2s!')
+                child.webContents.send("stopRec");
+            })
           })
         //})
 }
@@ -586,7 +596,7 @@ function createSnapByteWindow() {
             child.loadURL(indexURL+'?action='+title+'&mid='+id);
 
             child.show();
-            //child.setAlwaysOnTop(true)
+            child.setAlwaysOnTop(true)
             child.webContents.on('did-finish-load',() => {
                 child.setTitle(childTitle)
 

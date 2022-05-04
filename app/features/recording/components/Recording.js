@@ -34,6 +34,7 @@ import undo from '../../../images/undo.png';
 import undo1 from '../../../images/undo-1.png';
 import fontsizesvgrepocom from '../../../images/font-size-svgrepo-com.png';
 import artistcolorpalettesvgrepocom from '../../../images/artist-color-palette-svgrepo-com.png';
+import Logo from '../../../images/icon_512x512.png';
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;
 let fs  =  window.snapNodeAPI.fs;
 var THIS;
@@ -218,7 +219,7 @@ async function getScreenStream(callback) {
 
  async function startRec() {
   document.querySelector('#btn-start-recording').style.display = 'none';
-
+  $('#recCon').attr("style","padding:4px!important");
  
       // RecordRTC goes here
       // var captureStream = htmlCanvasElement.captureStream();
@@ -359,7 +360,7 @@ function downloadFile(fileName){
     localStorage.setItem('trim',true);
     $('.fwyqgM').addClass('bgnewTrim')
     //ipcRenderer.send( 'full-screen',true);
-    ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
+    ipcRenderer.send('resize-window', 'recording', 1136, 698, false, false );
   } else {
     var GO = 'yes';
     console.log('heree');
@@ -982,7 +983,10 @@ class Recording extends Component<Props, State> {
           uploadInProgSHow:false,
           totalTimeLap:'0',
           trimCut:false,
-          countDown:false
+          countDown:false,
+          screenicon:true,
+          camicon:true,
+          micicon:true
         };
         this.handleDataAvailable = this.handleDataAvailable.bind(this);
         this.handleStop = this.handleStop.bind(this);
@@ -1001,14 +1005,75 @@ class Recording extends Component<Props, State> {
         this.viewStatus = this.viewStatus.bind(this);
         this.Upfn =  this.Upfn.bind(this);
         this.handler =  this.handler.bind(this);
+        this.enableDisableIcon =  this.enableDisableIcon.bind(this);
         THIS = this;
+        this.Exit = this.Exit.bind(this);
         ipcRenderer.send( 'full-screen',false);
         ipcRenderer.send('resize-window', 'recording', 750, 310, false, false );
       
     }
+
+  async  enableDisableIcon(action){
+      console.log(action);
+      if(action == 'screenicon') {
+        await this.setState({screenicon:!this.state.screenicon});
+        $('#screen_source').val('').change()
+        $('#screen_source').attr('disabled',!this.state.screenicon);
+       
+       // if(this.state.screenicon){
+         
+          $('#audioSel').val('').change()
+          this.selectAudioSource('');
+          //$('#vide_E').val('').change()
+          //this.selectVideoSource('');
+       // }
+        this.selectSource('');
+      } else if(action == 'micicon') {
+        await this.setState({micicon:!this.state.micicon});
+        $('#audioSel').val('').change()
+        $('#audioSel').attr('disabled',!this.state.micicon);
+        this.selectAudioSource('');
+      //  if(this.state.micicon){
+         
+          
+          $('#vide_E').val('').change()
+          this.selectVideoSource('');
+          $('#screen_source').val('').change()
+          this.selectSource('');
+       // }
+        //this.selectSource('');
+      }  if(action == 'camicon') {
+        console.log(this.state.camicon);
+        var icc = false;
+        if(this.state.camicon) {
+          icc = false;
+        } else {
+          icc = true;
+        }
+       
+        console.log(icc);
+        await   this.setState({camicon:icc});
+        $('#vide_E').val('').change()
+        await this.selectVideoSource('');
+        await  $('#vide_E').attr('disabled',!icc);
+      
+        
+        // if(this.state.camicon){
+        //   $('#vide_E').val('').change()
+        //   this.selectVideoSource('');
+        //   $('#screen_source').val('').change()
+        //   this.selectSource('');
+        // }
+        
+      }
+
+    }
     handler(){
       this.setState({trimCut:false});
+      document.getElementsByClassName('nav_bar')[0].style.display = 'none';
       localStorage.setItem('trim',false);
+      document.getElementsByClassName('nav_bar_2')[0].style.display = 'flex';
+      //alert()
     }
     viewStatus(action) {
       if(action == 'close') {
@@ -1100,7 +1165,7 @@ class Recording extends Component<Props, State> {
             this.setState({trimCut:true}) 
             localStorage.setItem('trim',true);
             $('.fwyqgM').addClass('bgnewTrim')
-             ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
+             ipcRenderer.send('resize-window', 'recording', 1136, 698, false, false );
             //ipcRenderer.send( 'full-screen',true);
           }
         
@@ -1283,8 +1348,38 @@ console.log(yuppy);
          // writeFile(filePath, buffer, () => console.log('video saved successfully!'));
         }
       
+        Exit(par){
+          console.log(par);
+          if(localStorage.getItem('trim')=='true' && par == "?action=recording&mid=undefined"){
+              swal({
+                  title: "Are you sure?",
+                  text: "This will delete your current Recording",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                })
+                .then((willDelete) => {
+                  if (willDelete) {
+                      window.snapNodeAPI.MAIN_API.Win.Exit(window.location.search)
+                  } else {
+                   
+                  }
+                });
+          } else {
+              window.snapNodeAPI.MAIN_API.Win.Exit(window.location.search)
+  
+          }
+          //window.snapNodeAPI.MAIN_API.Win.Exit(window.location.search)
+  
+      }
       async startBtn() {
-       
+        console.log($('#screen_source :selected').attr('data-name'));
+      //  console.log($('#screen_source :selected').attr('data-name'));
+      if($('#screen_source :selected').attr('data-name') == undefined && $('#audioSel :selected').attr('data-name') == undefined  && $('#vide_E :selected').attr('data-name') == undefined ) {
+        swal('Select atleast one source!!')
+        return false;
+      }
+      // return false;
         if(($('#screen_source :selected').attr('data-name') == 'Entire Screen')){
         } else {
          
@@ -1347,7 +1442,10 @@ console.log(yuppy);
     stopBtn() {
          // const stopBtn = document.getElementById('stopBtn');
        const startBtn = document.getElementById('startBtn');
-       document.getElementsByClassName('nav_bar')[0].style.display = 'flex';
+       if(localStorage.getItem('openEditor') == 'true'){
+        document.getElementsByClassName('nav_bar')[0].style.display = 'flex';
+       }
+     
        ipcRenderer.send( 'full-screen',false);
        ipcRenderer.send('resize-window', 'recording', 750, 310, false, false );
        this.setState({RecordingStarted:false});
@@ -1416,7 +1514,10 @@ console.log(yuppy);
 
       async selectSource(source) {
         if(($('#screen_source').val() == '') || ($('#screen_source :selected').attr('data-name') == 'Entire Screen')){
-          $('#vide_E').attr('disabled',false);
+          if(this.state.camicon) {
+            $('#vide_E').attr('disabled',false);
+          }
+         
         } else {
           $('#vide_E').attr('disabled',true);
           this.setState({DrawingTool : false});
@@ -1425,8 +1526,11 @@ console.log(yuppy);
         }
         recordedChunks = [];
         //$('#screen_source').val('').change()
-        this.selectVideoSource('');
-        $('#vide_E').val('').change()
+      //  if(this.state.camicon) {
+          this.selectVideoSource('');
+          $('#vide_E').val('').change()
+       // }
+       
  
 
         //videoSelectBtn.innerText = source.name;
@@ -1475,8 +1579,13 @@ console.log(yuppy);
       
         // Create the Media Recorder
         const options = { mimeType: 'video/webm; codecs=vp9' };
+       if(this.state.micicon) {
+        var streamnew =  new MediaStream([audio[0], Vi[0]]);
+       } else {
+        var streamnew =  stream;
+       }
        // mediaRecorder = new MediaRecorder(stream, options);
-       var streamnew =  new MediaStream([audio[0], Vi[0]]);
+     
        mediaRecorder = new MediaRecorder(streamnew);
       
         // Register Event Handlers
@@ -1491,9 +1600,13 @@ console.log(yuppy);
         if(source!='' || source == undefined){
           sourceId = source.target.value;
         }
-        console.log(sourceId);
+        console.log(this.state.camicon);
+        
         if(($('#screen_source').val() == '') || ($('#screen_source :selected').attr('data-name') == 'Entire Screen')){
-          $('#vide_E').attr('disabled',false);
+          if(this.state.camicon) {
+            $('#vide_E').attr('disabled',false);
+          }
+          //$('#vide_E').attr('disabled',false);
         } else {
           this.setState({DrawingTool : false});
           document.getElementById("chk1").checked = false;
@@ -1552,7 +1665,12 @@ console.log(yuppy);
             // Create the Media Recorder
             const options = { mimeType: 'video/webm; codecs=vp9' };
           // mediaRecorder = new MediaRecorder(stream, options);
+          if(this.state.micicon) {
             var streamnew =  new MediaStream([audio[0], Vi[0]]);
+           } else {
+            var streamnew =  stream;
+           }
+           // var streamnew =  new MediaStream([audio[0], Vi[0]]);
             console.log(streamnew);
             mediaRecorder = new MediaRecorder(streamnew);
             console.log(mediaRecorder);
@@ -1602,8 +1720,11 @@ console.log(yuppy);
       }
 
       showcustomSelection(){
+        document.getElementsByClassName('nav_bar_2')[0].style.display = 'none';
+
         document.getElementsByClassName('nav_bar')[0].style.display = 'none';
         ipcRenderer.send( 'full-screen',true);
+        $('#recCon').attr("style","padding:0px!important");
        //ipcRenderer.send('resize-window', 'recording', 1136, 590, false, false );
         dragElement(document.getElementById("mydiv"));
                 // Query all resizers
@@ -1783,6 +1904,17 @@ console.log(yuppy);
      * @returns {void}
      */
     async componentDidMount() {
+      document.getElementsByClassName('nav_bar')[0].style.display = 'none';
+      document.getElementsByClassName('nav_bar_2')[0].style.display = 'flex';
+      
+      ipcRenderer.on('stopRec', (event) =>  {
+          this.stopBtn();
+      
+      });
+    ipcRenderer.on('pauseRec', (event) =>  {
+        this._playPause()
+    
+    });
         // ipcRenderer.send( 'resize-to-default' );
         // this.props.dispatch(push('/', {
         //     token:''
@@ -2084,6 +2216,26 @@ console.log(yuppy);
                 }
               </div>
               <div id="recCon" style={{display: !this.state.RecordingStarted && !this.state.trimCut ? 'block':'none' }}  className='entry-container recContainer p-relative'>
+              <nav style={{display:'none'}} className='nav_bar_2'>
+
+                <div className="navigation-left nav-side">
+                
+                 <a  className="logo">
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.2" viewBox="0 0 230 72" width="229"><g transform="translate(-60 -45)"><g transform="translate(41)"><text transform="translate(94 83)" fill="#fff" fontSize="35" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="0" y="0">Snapbyte</tspan></text><text transform="translate(94 113)" fill="#fff" fontSize="15" fontFamily="SegoeUI, Segoe UI"><tspan x="0" y="0">by BigCommand</tspan></text></g><g transform="translate(59 55)"><rect width="57" height="57" rx="6" transform="translate(1 1)" fill="#fbe7e3"></rect><g transform="translate(14.3 14.3)"><path d="M23.2,8A15.2,15.2,0,1,0,38.4,23.2,15.2,15.2,0,0,0,23.2,8Z" transform="translate(-8 -8)" fill="#fc573b" fillRule="evenodd"></path><path d="M19.851,11.721a8.13,8.13,0,1,0,8.13,8.13A8.13,8.13,0,0,0,19.851,11.721Z" transform="translate(-4.651 -4.651)" fill="#f9aa9d" fillRule="evenodd"></path></g></g></g></svg> */}
+                    <img style={{height: '25px',width:'25px'}} alt="Adilo" src={Logo} class="logo"></img>
+              </a>
+                    <span className='text_log'>Adilo Recorder</span>
+                </div>
+
+                <div className="navigation-right nav-side">
+                    {/* <a href="#" onClick={() => window.snapNodeAPI.MAIN_API.Win.Minimize(window.location.search)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4"><line x2="16" transform="translate(2 2)" fill="none" stroke="#fff" strokeLinecap="round" strokeWidth="4"/></svg>
+                    </a> */}
+                    <a  href="#" onClick={() => this.Exit(window.location.search)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11.112" height="21.992" viewBox="0 0 16.112 15.992"><g transform="translate(0 -0.175)"><path d="M15.519,12.511l-4.5-4.5,4.177-4.177A2.022,2.022,0,1,0,12.336.972L8.158,5.15,3.776.767A2.022,2.022,0,0,0,.917,3.627L5.3,8.009.593,12.715a2.022,2.022,0,1,0,2.859,2.86l4.707-4.707,4.5,4.5a2.022,2.022,0,0,0,2.859-2.859Z" fill="#929292" stroke-width="1"/></g></svg>
+                    </a>
+                </div>
+                </nav>
                 <div  style={{display: !this.state.customCrop ? 'flex':'none' }} className="row h-100 align-items-center">
                   <div className='col-sm-6'>
                     <div className='rec_left'>
@@ -2136,18 +2288,41 @@ console.log(yuppy);
                       <option value="custom">Custom Size</option>
                           {screenData}
                       </select>
-                    <div className='recToolIcon'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20.718" height="19.053" viewBox="0 0 20.718 19.053"><g transform="translate(-732.601 -536.998)"><g transform="translate(730.398 495.87)"><g transform="translate(0 39.184)"><g transform="translate(0 0)"><path d="M122.388,316.082l-2.225,2.9h10.289l-2.225-2.9Z" transform="translate(-112.745 -297.988)" fill="#fff"/><path d="M19.1,39.184H1.614A1.657,1.657,0,0,0,0,40.881V51.347a1.657,1.657,0,0,0,1.614,1.7H19.1a1.657,1.657,0,0,0,1.614-1.7V40.881A1.657,1.657,0,0,0,19.1,39.184Z" transform="translate(2.203 -37.24)" fill="#fff"/></g></g></g></g></svg>
+                    <div className='recToolIcon screenicon'>
+                    <a className='screenicon' onClick={() => this.enableDisableIcon('screenicon')} href='#'>
+                      <span>
+                      {!this.state.screenicon && 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="5.917" height="5.873" viewBox="0 0 5.917 5.873">
+                          <g id="cancel" transform="translate(0 -0.175)">
+                            <path id="Path_1132" data-name="Path 1132" d="M5.7,4.705,4.046,3.052,5.58,1.518A.742.742,0,0,0,4.53.468L3,2,1.387.392a.742.742,0,0,0-1.05,1.05L1.946,3.052.218,4.78a.742.742,0,0,0,1.05,1.05L3,4.1,4.649,5.755A.742.742,0,0,0,5.7,4.705Z" fill="rgba(255,255,255,0.7)"/>
+                          </g>
+                        </svg>
+                      }
+                    </span>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20.718" height="19.053" viewBox="0 0 20.718 19.053"><g transform="translate(-732.601 -536.998)"><g transform="translate(730.398 495.87)"><g transform="translate(0 39.184)"><g transform="translate(0 0)"><path d="M122.388,316.082l-2.225,2.9h10.289l-2.225-2.9Z" transform="translate(-112.745 -297.988)" fill="#fff"/><path d="M19.1,39.184H1.614A1.657,1.657,0,0,0,0,40.881V51.347a1.657,1.657,0,0,0,1.614,1.7H19.1a1.657,1.657,0,0,0,1.614-1.7V40.881A1.657,1.657,0,0,0,19.1,39.184Z" transform="translate(2.203 -37.24)" fill="#fff"/></g></g></g></g></svg>
+                    </a>
                       </div>
                       </div>
                       <div className='recRightRow'>
                     <label>Mic</label>
                     <select onChange={this.selectAudioSource} accessibilityelementshidden="true" style={{width: '50%'}}  importantforaccessibility="no-hide-descendants" id="audioSel">
-                      <option>Select Source</option>
+                      <option value="">Select Source</option>
                           {audioData}
                       </select>
                     <div className='recToolIcon'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13.526" height="19.538" viewBox="0 0 13.526 19.538"><g transform="translate(-736.052 -536.998)"><g transform="translate(662.965 536.998)"><g transform="translate(73.087)"><path d="M149.936,13.526a3.767,3.767,0,0,0,3.757-3.757V3.757a3.617,3.617,0,0,0-1.1-2.654,3.741,3.741,0,0,0-5.307,0,3.618,3.618,0,0,0-1.1,2.654V9.769a3.768,3.768,0,0,0,3.757,3.757Z" transform="translate(-143.173)" fill="#fff"/><path d="M86.39,182.947a.751.751,0,0,0-1.28.528v1.5a5.26,5.26,0,0,1-10.52,0v-1.5a.752.752,0,0,0-1.5,0v1.5a6.762,6.762,0,0,0,6.012,6.716v1.55H76.093a.752.752,0,0,0,0,1.5h7.514a.752.752,0,0,0,0-1.5H80.6v-1.55a6.763,6.763,0,0,0,6.012-6.716v-1.5A.722.722,0,0,0,86.39,182.947Z" transform="translate(-73.087 -175.209)" fill="#fff"/></g></g></g></svg>
+                    <a className='micicon' onClick={() => this.enableDisableIcon('micicon')} href='#'>
+                      <span>
+                      {!this.state.micicon && 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="5.917" height="5.873" viewBox="0 0 5.917 5.873">
+                          <g id="cancel" transform="translate(0 -0.175)">
+                            <path id="Path_1132" data-name="Path 1132" d="M5.7,4.705,4.046,3.052,5.58,1.518A.742.742,0,0,0,4.53.468L3,2,1.387.392a.742.742,0,0,0-1.05,1.05L1.946,3.052.218,4.78a.742.742,0,0,0,1.05,1.05L3,4.1,4.649,5.755A.742.742,0,0,0,5.7,4.705Z" fill="rgba(255,255,255,0.7)"/>
+                          </g>
+                        </svg>
+                      }
+                    </span>
+
+                       <svg xmlns="http://www.w3.org/2000/svg" width="13.526" height="19.538" viewBox="0 0 13.526 19.538"><g transform="translate(-736.052 -536.998)"><g transform="translate(662.965 536.998)"><g transform="translate(73.087)"><path d="M149.936,13.526a3.767,3.767,0,0,0,3.757-3.757V3.757a3.617,3.617,0,0,0-1.1-2.654,3.741,3.741,0,0,0-5.307,0,3.618,3.618,0,0,0-1.1,2.654V9.769a3.768,3.768,0,0,0,3.757,3.757Z" transform="translate(-143.173)" fill="#fff"/><path d="M86.39,182.947a.751.751,0,0,0-1.28.528v1.5a5.26,5.26,0,0,1-10.52,0v-1.5a.752.752,0,0,0-1.5,0v1.5a6.762,6.762,0,0,0,6.012,6.716v1.55H76.093a.752.752,0,0,0,0,1.5h7.514a.752.752,0,0,0,0-1.5H80.6v-1.55a6.763,6.763,0,0,0,6.012-6.716v-1.5A.722.722,0,0,0,86.39,182.947Z" transform="translate(-73.087 -175.209)" fill="#fff"/></g></g></g></svg>
+                    </a>
                       </div>
                       </div>
                       <div className='recRightRow'>
@@ -2157,7 +2332,18 @@ console.log(yuppy);
                           {videoData}
                       </select>
                     <div className='recToolIcon'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15.63" height="19.538" viewBox="0 0 15.63 19.538"><g transform="translate(-735 -536.998)"><g transform="translate(683.8 536.998)"><g transform="translate(51.2)"><path d="M59.015,0A7.815,7.815,0,1,0,66.83,7.815,7.838,7.838,0,0,0,59.015,0Zm0,11.723a3.908,3.908,0,1,1,3.908-3.908A3.919,3.919,0,0,1,59.015,11.723Z" transform="translate(-51.2)" fill="#fff"/></g><g transform="translate(57.061 5.861)"><path d="M206.754,153.6a.732.732,0,0,0-.488.1,1.018,1.018,0,0,1-1.368,1.368.732.732,0,0,0-.1.488,1.954,1.954,0,1,0,1.954-1.954Z" transform="translate(-204.8 -153.6)" fill="#fff"/></g><g transform="translate(52.198 16.119)"><path d="M89.444,422.4a9.655,9.655,0,0,1-5.178,1.465,9.189,9.189,0,0,1-5.178-1.465l-1.661,2.735a.439.439,0,0,0,.391.684h12.7a.646.646,0,0,0,.586-.684Z" transform="translate(-77.351 -422.4)" fill="#fff"/></g></g></g></svg>
+                    <a className='camicon' onClick={() => this.enableDisableIcon('camicon')} href='#'>
+                      <span>
+                    {!this.state.camicon && 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="5.917" height="5.873" viewBox="0 0 5.917 5.873">
+                        <g id="cancel" transform="translate(0 -0.175)">
+                          <path id="Path_1132" data-name="Path 1132" d="M5.7,4.705,4.046,3.052,5.58,1.518A.742.742,0,0,0,4.53.468L3,2,1.387.392a.742.742,0,0,0-1.05,1.05L1.946,3.052.218,4.78a.742.742,0,0,0,1.05,1.05L3,4.1,4.649,5.755A.742.742,0,0,0,5.7,4.705Z" fill="rgba(255,255,255,0.7)"/>
+                        </g>
+                      </svg>
+                    }
+                    </span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15.63" height="19.538" viewBox="0 0 15.63 19.538"><g transform="translate(-735 -536.998)"><g transform="translate(683.8 536.998)"><g transform="translate(51.2)"><path d="M59.015,0A7.815,7.815,0,1,0,66.83,7.815,7.838,7.838,0,0,0,59.015,0Zm0,11.723a3.908,3.908,0,1,1,3.908-3.908A3.919,3.919,0,0,1,59.015,11.723Z" transform="translate(-51.2)" fill="#fff"/></g><g transform="translate(57.061 5.861)"><path d="M206.754,153.6a.732.732,0,0,0-.488.1,1.018,1.018,0,0,1-1.368,1.368.732.732,0,0,0-.1.488,1.954,1.954,0,1,0,1.954-1.954Z" transform="translate(-204.8 -153.6)" fill="#fff"/></g><g transform="translate(52.198 16.119)"><path d="M89.444,422.4a9.655,9.655,0,0,1-5.178,1.465,9.189,9.189,0,0,1-5.178-1.465l-1.661,2.735a.439.439,0,0,0,.391.684h12.7a.646.646,0,0,0,.586-.684Z" transform="translate(-77.351 -422.4)" fill="#fff"/></g></g></g></svg>
+                    </a>
                       </div>
                       </div>
                     </div>

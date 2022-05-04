@@ -1,6 +1,6 @@
 {
   "name": "adilo-recorder",
-  "version": "22.4.3",
+  "version": "22.4.4",
   "description": "adilo App",
   "main": "./build/main.js",
   "productName": "ADILO Recorder",

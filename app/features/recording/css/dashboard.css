@@ -164,3 +164,20 @@ span.recTime {
     justify-content: center;
 	min-height: 50px;
 }
+.recToolIcon a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.recToolIcon a span {
+    position: absolute;
+    top: 0px;
+    right: -6px;
+    line-height: 0;
+}
+
+.recToolIcon a > svg {
+    flex-shrink: 0;
+}

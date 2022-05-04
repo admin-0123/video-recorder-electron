@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import '../css/trim.css';
 // import config from '../../config';
 import crosshair from '../../../images/crosshair.png';
+import righticon2 from '../../../images/Group-13462.png';
+import lefticon3 from '../../../images/Group-13463.png';
 import $ from 'jquery';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
@@ -217,10 +219,10 @@ class TrimCut extends Component<Props, State> {
 		});
 		const lower = document.querySelector('.noUi-handle-lower');
 		//lower.innerHTML = '<img src="https://i.ibb.co/GPVBrF1/Group-13463.png" alt="Group-13463" border="0"><span class="first">0:00:00</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
-    lower.innerHTML = '<img src="https://i.ibb.co/JcgbzpP/Group-13462.png" alt="Group-13463" border="0">';
+    lower.innerHTML = `<img src="${righticon2}" alt="Group-13463" border="0">`;
 		const upper = document.querySelector('.noUi-handle-upper');
 		//upper.innerHTML = '<img src="https://i.ibb.co/JcgbzpP/Group-13462.png" alt="Group-13462" border="0"><span class="last">' + this.calculateTimeDuration(this.state.totalDuration) + '</span><span class="drag"><img src="https://snapbyte.bigcommand.io/images/menu.svg" /></span>';
-    upper.innerHTML = '<img src="https://i.ibb.co/GPVBrF1/Group-13463.png" alt="Group-13462" border="0">';
+    upper.innerHTML = `<img src="${lefticon3}" alt="Group-13462" border="0">`;
 		if (slider && slider.noUiSlider) {
             slider.noUiSlider.on('change', this.updateNextProgress);
         }
@@ -262,7 +264,7 @@ class TrimCut extends Component<Props, State> {
       //  document.getElementById('recCon').style.display = "flex";
       //  document.getElementById('trimCUT').style.display = "none";
        
-       document.getElementsByClassName('nav_bar')[0].style.display = 'flex';
+       //document.getElementsByClassName('nav_bar')[0].style.display = 'flex';
        ipcRenderer.send( 'full-screen',false);
        ipcRenderer.send('resize-window', 'recording', 750, 310, false, false );
        $('.fwyqgM').removeClass('bgnewTrim');
@@ -320,6 +322,8 @@ class TrimCut extends Component<Props, State> {
         swal('Please select the duration for this feature, or you can publish original file.')
         return false;
       }
+      $('#trimicon').addClass('active');
+      $('#cuticon').removeClass('active');
       this.setState({publish:false});
       $('.second').show();
       var THIS = this;
@@ -398,6 +402,8 @@ class TrimCut extends Component<Props, State> {
         swal('Please select the duration for this feature, or you can publish original file.')
         return false;
       }
+      $('#trimicon').removeClass('active');
+      $('#cuticon').addClass('active');
       this.setState({publish:false});
       $('.second').show();
       var THIS = this;
@@ -590,7 +596,7 @@ class TrimCut extends Component<Props, State> {
             </span>
             : 
             <span className='sliderActionLeft'>
-              <a href='#' onClick={()=>{ this.trim() }}><svg id="crop" xmlns="http://www.w3.org/2000/svg" width="36.867" height="36.867" viewBox="0 0 36.867 36.867">
+              <a href='#' id="trimicon" onClick={()=>{ this.trim() }}><svg id="crop" xmlns="http://www.w3.org/2000/svg" width="36.867" height="36.867" viewBox="0 0 36.867 36.867">
                 <g id="Group_95" data-name="Group 95">
                   <g id="Group_94" data-name="Group 94">
                     <path id="Path_78" data-name="Path 78" d="M184.073,102.091h3.352V88.685a3.351,3.351,0,0,0-3.352-3.352H170.667v3.352h13.406v13.406Z" transform="translate(-157.261 -78.63)" fill="#fff"/>
@@ -600,7 +606,7 @@ class TrimCut extends Component<Props, State> {
               </svg>
               <span>Trim</span>
               </a>
-              <a href='#' onClick={()=>{ this.cut() }}><svg id="scissors" xmlns="http://www.w3.org/2000/svg" width="33.209" height="29.509" viewBox="0 0 33.209 29.509">
+              <a href='#' id="cuticon" onClick={()=>{ this.cut() }}><svg id="scissors" xmlns="http://www.w3.org/2000/svg" width="33.209" height="29.509" viewBox="0 0 33.209 29.509">
                   <g id="Group_93" data-name="Group 93" transform="translate(0 0)">
                     <path id="Path_77" data-name="Path 77" d="M33.209,33.628a4.89,4.89,0,0,0-6.777-1.234l-11.27,7.891-4.1-2.87A5.926,5.926,0,1,0,8.569,39.76l5.019,3.514L8.57,46.789a5.932,5.932,0,1,0,2.494,2.345l4.1-2.87,11.27,7.891a4.89,4.89,0,0,0,6.777-1.235L19.431,43.275ZM5.943,37.537a3.074,3.074,0,1,1,3.074-3.074A3.074,3.074,0,0,1,5.943,37.537Zm0,17.624a3.074,3.074,0,1,1,3.074-3.074A3.074,3.074,0,0,1,5.943,55.161Z" transform="translate(0 -28.52)" fill="#fff"/>
                   </g>
@@ -609,7 +615,7 @@ class TrimCut extends Component<Props, State> {
                 </a>
             </span>
           }
-          <span id='videoPlay' className=''></span>
+          {/* <span id='videoPlay' className=''></span> */}
           <div id='slider'></div>
           <span className='span_side'>
              <span> {this.calculateTimeDuration(this.state.startTime)} </span> /
@@ -622,24 +628,24 @@ class TrimCut extends Component<Props, State> {
            <span>
               <a className='undoVideo active' href='#' onClick={()=>{ this.reset() }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="38.236" height="40.193" viewBox="0 0 38.236 40.193">
-  <g id="circular-left-arrow" transform="translate(0 9.905) rotate(-20)">
-    <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
-      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.435A11.7,11.7,0,0,1,2.8,17.752a1.4,1.4,0,0,0-2.8,0A14.479,14.479,0,1,0,16.99,3.5a.68.68,0,0,1-.553-.645V.308c0-.309-.194-.4-.433-.206L10.848,4.317a.439.439,0,0,0,0,.708L16,9.24c.239.2.433.1.433-.205V6.8a.441.441,0,0,1,.549-.453,11.681,11.681,0,0,1-2.507,23.091Z" transform="translate(0)" fill="#c2c9db"/>
-    </g>
-  </g>
-</svg>
+              <g id="circular-left-arrow" transform="translate(0 9.905) rotate(-20)">
+                <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
+                  <path id="Path_9878" data-name="Path 9878" d="M14.479,29.435A11.7,11.7,0,0,1,2.8,17.752a1.4,1.4,0,0,0-2.8,0A14.479,14.479,0,1,0,16.99,3.5a.68.68,0,0,1-.553-.645V.308c0-.309-.194-.4-.433-.206L10.848,4.317a.439.439,0,0,0,0,.708L16,9.24c.239.2.433.1.433-.205V6.8a.441.441,0,0,1,.549-.453,11.681,11.681,0,0,1-2.507,23.091Z" transform="translate(0)" fill="#c2c9db"/>
+                </g>
+              </g>
+            </svg>
 
                 </a>
-                <a href='#' className='redoVideo'>
-                <svg xmlns="http://www.w3.org/2000/svg" width="38.235" height="40.192" viewBox="0 0 38.235 40.192">
-  <g id="circular-left-arrow" transform="translate(11.024) rotate(20)">
-    <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
-      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.434A11.7,11.7,0,0,0,26.161,17.752a1.4,1.4,0,0,1,2.8,0A14.479,14.479,0,1,1,11.969,3.495a.68.68,0,0,0,.553-.645V.308c0-.309.194-.4.433-.206l5.157,4.215a.439.439,0,0,1,0,.708L12.954,9.24c-.239.2-.433.1-.433-.205V6.8a.441.441,0,0,0-.549-.453,11.681,11.681,0,0,0,2.507,23.09Z" fill="#c2c9db"/>
-    </g>
-  </g>
-</svg>
+                {/* <a href='#' className='redoVideo'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="38.235" height="40.192" viewBox="0 0 38.235 40.192">
+                  <g id="circular-left-arrow" transform="translate(11.024) rotate(20)">
+                    <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
+                      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.434A11.7,11.7,0,0,0,26.161,17.752a1.4,1.4,0,0,1,2.8,0A14.479,14.479,0,1,1,11.969,3.495a.68.68,0,0,0,.553-.645V.308c0-.309.194-.4.433-.206l5.157,4.215a.439.439,0,0,1,0,.708L12.954,9.24c-.239.2-.433.1-.433-.205V6.8a.441.441,0,0,0-.549-.453,11.681,11.681,0,0,0,2.507,23.09Z" fill="#c2c9db"/>
+                    </g>
+                  </g>
+                </svg>
 
-                </a>
+                </a> */}
             </span>
    
         </div>

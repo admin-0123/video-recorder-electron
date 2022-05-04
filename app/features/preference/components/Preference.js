@@ -38,7 +38,7 @@ import { Landing, Body, FieldWrapper, Header, Label, Wrapper } from '../styled';
 import '../css/welcome.css';
 import '../css/dashboard.css';
 import '../css/electron-app.css';
-
+import $ from 'jquery';
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;
 
 type Props = {
@@ -121,7 +121,8 @@ class Preference extends Component<Props, State> {
      * @returns {void}
      */
     componentDidMount() {
-        document.getElementsByClassName('navigation-right')[0].style.display = 'none';
+       // document.getElementsByClassName('navigation-right')[0].style.display = 'none';
+       $('.cyUEve').addClass('bgnewTrim')
 
         // ipcRenderer.send( 'resize-to-default' );
         // this.props.dispatch(push('/', {
@@ -230,26 +231,35 @@ class Preference extends Component<Props, State> {
            
                 </Form.Group>  */}
 
-                {/* <div className='mt-3' mt-3><b>Shortcuts</b></div> */}
-                {/* <Form.Group as={Row} className='align-items-center' >
+                <div className='mt-3' mt-3><b>Shortcuts</b></div>
+                <Form.Group as={Row} className='align-items-center' >
                 <Form.Label column xs="5">
-                Record audio
+                Record audio / video
                     </Form.Label>
                     <Col xs="7">
-                        <div className='shortcode'><span>CTRL ALT 4</span></div>
+                        <div className='shortcode'><span>CTRL ALT 5</span></div>
                     </Col>
            
-                </Form.Group>  */}
+                </Form.Group> 
 
-                {/* <Form.Group as={Row} className='align-items-center' >
+                <Form.Group as={Row} className='align-items-center' >
                 <Form.Label column xs="5">
-                Record audio
+                Pause/Play recording
                     </Form.Label>
                     <Col xs="7">
-                        <div className='shortcode'><span>CTRL ALT 4</span></div>
+                        <div className='shortcode'><span>CTRL ALT 6</span></div>
                     </Col>
            
-                </Form.Group>  */}
+                </Form.Group> 
+                <Form.Group as={Row} className='align-items-center' >
+                <Form.Label column xs="5">
+                Stop recording
+                    </Form.Label>
+                    <Col xs="7">
+                        <div className='shortcode'><span>CTRL ALT 7</span></div>
+                    </Col>
+           
+                </Form.Group> 
                 <div className="d-flex justify-content-center">
                 <Button onClick={()=>{ window.close();}} variant="primary" type="submit">
                         Done
