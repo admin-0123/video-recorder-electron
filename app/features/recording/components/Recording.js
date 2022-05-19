@@ -2232,7 +2232,12 @@ console.log(yuppy);
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4"><line x2="16" transform="translate(2 2)" fill="none" stroke="#fff" strokeLinecap="round" strokeWidth="4"/></svg>
                     </a> */}
                     <a  href="#" onClick={() => this.Exit(window.location.search)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="11.112" height="21.992" viewBox="0 0 16.112 15.992"><g transform="translate(0 -0.175)"><path d="M15.519,12.511l-4.5-4.5,4.177-4.177A2.022,2.022,0,1,0,12.336.972L8.158,5.15,3.776.767A2.022,2.022,0,0,0,.917,3.627L5.3,8.009.593,12.715a2.022,2.022,0,1,0,2.859,2.86l4.707-4.707,4.5,4.5a2.022,2.022,0,0,0,2.859-2.859Z" fill="#929292" stroke-width="1"/></g></svg>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 15.447 15.447">
+                            <g id="close" transform="translate(1.415 1.414)">
+                                <line id="Line_359" data-name="Line 359" x2="17.845" transform="translate(12.618) rotate(135)" fill="none" stroke="#182e45" stroke-linecap="round" stroke-width="2"/>
+                                <line id="Line_360" data-name="Line 360" x2="17.845" transform="rotate(45)" fill="none" stroke="#182e45" stroke-linecap="round" stroke-width="2"/>
+                            </g>
+                        </svg>
                     </a>
                 </div>
                 </nav>
