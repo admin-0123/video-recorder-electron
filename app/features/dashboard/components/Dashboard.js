@@ -135,6 +135,8 @@ class DashboardPage extends Component<Props, State> {
 
         // this._updateRoomname();
         ipcRenderer.on('uploadFIle', (event,{url,fileName,type}) =>  {
+            $('.right_side').show()
+            $('.c_container_outer').removeClass('add_height');
             this.uploadfile(url,type,fileName);
             //console.log(event);
             //console.log(action);
@@ -257,7 +259,8 @@ class DashboardPage extends Component<Props, State> {
           await  axios(obj)
           .then((response)=>{
            console.log(response.data);
-          
+           $('.right_side').hide()
+           $('.c_container_outer').addClass('add_height');
         
             })
            
@@ -465,12 +468,12 @@ class DashboardPage extends Component<Props, State> {
                         <a href="#" onClick={this.record} className="col-auto col-recbutton"><svg style={{width:"87px"}} xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.2" viewBox="0 0 148.979 148.979" width="149"><g transform="translate(-1166.021 -142.021)"><g transform="translate(1166.021 142.021)"><path d="M167.183,107.592A59.592,59.592,0,1,1,107.592,48,59.591,59.591,0,0,1,167.183,107.592Zm0,0" transform="translate(-33.102 -33.102)" fill="#fccfcf"></path><path d="M74.49,148.979a74.49,74.49,0,1,1,74.49-74.49A74.49,74.49,0,0,1,74.49,148.979Zm0-144.013A69.524,69.524,0,1,0,144.013,74.49,69.524,69.524,0,0,0,74.49,4.966Zm0,0" fill="#e75555"></path><path d="M197.524,162.762A34.762,34.762,0,1,1,162.762,128,34.762,34.762,0,0,1,197.524,162.762Zm0,0" transform="translate(-88.272 -88.272)" fill="#e61717"></path></g><text transform="translate(1214 226)" fill="#fff" fontSize="28" fontFamily="SegoeUI-Bold, Segoe UI" fontWeight="700"><tspan x="0" y="0">REC</tspan></text></g></svg></a>
                         <div className='drope_container alt'>
                             <div className='left_side'>Recent Recordings  <a href="#" onClick={ () => {location.reload()}} className="col-auto col-recbutton">Refresh </a></div>
-                            <div className='right_side'>
+                            <div style={{display:'none'}} className='right_side'>
                                 <div className='dropFile' id="drag-drop-area">
                                 </div>
                                 </div>
                         </div>
-                        <div className='c_container_outer'>
+                        <div className='c_container_outer add_height'>
                         <div className='c_container'>
                         { Fl.map((wp, i) => {
                            return (<div className="main-container flexbox">

@@ -287,3 +287,6 @@ button.uppy-u-reset.uppy-Dashboard-Item-action.uppy-Dashboard-Item-action--remov
 .uppy-StatusBar.is-waiting .uppy-StatusBar-actions {
     background: transparent;
 }
+.add_height{
+    height: 377px;
+}
