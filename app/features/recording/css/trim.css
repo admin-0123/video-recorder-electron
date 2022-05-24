@@ -205,7 +205,12 @@ a.redoVideo.active svg, a.undoVideo.active svg {
 span#videoPlay:before {content: "";border-right: 0;border: 13px solid transparent;border-left: 20px solid #00acdc;display: inline-block;border-right: 0;transition: all .3s;}
 
 span#videoPlay.pause:before, span#videoPlay.pause:after {content: "";border: 0;width: 7px;height: 100%;background: #00acdc;display: inline-block;}
-
+.active_red{
+    background: red;
+}
+.noUi-connect.noUi-draggable.active_red {
+    background: red;
+}
 span#videoPlay.pause:after {
     margin-left: 4px;
 }
@@ -216,6 +221,9 @@ svg#scissors {
 }
 
 .sliderActionLeft.sliderActionLeft a.active {
+    background: #2f3840;
+}
+.sliderActionLeft a:hover {
     background: #2f3840;
 }
 

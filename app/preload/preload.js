@@ -8,19 +8,20 @@ const appVersion = require('../../package.json').version;
 var FfmpegCommand = require('fluent-ffmpeg');
 
  import ffmpeg from 'ffmpeg-static-electron';
-// var ffmetadata = require("ffmetadata");
-// ffmetadata.setFfmpegPath(ffmpeg.path)
-// FfmpegCommand.setFfmpegPath(ffmpeg.path)
+var ffmetadata = require("ffmetadata");
+ffmetadata.setFfmpegPath(ffmpeg.path)
+// Setting ffmpeg path to ffmpeg binary for os x so that ffmpeg can be packaged with the app.
+FfmpegCommand.setFfmpegPath(ffmpeg.path)
 // FfmpegCommand.setFfprobePath('./app/bin/ffprobe/ffprobe.exe') 
 
 
 
 
-var ffmetadata = require("ffmetadata");
-ffmetadata.setFfmpegPath('resources/ffmpeg.exe')
+//var ffmetadata = require("ffmetadata");
+//ffmetadata.setFfmpegPath('resources/ffmpeg.exe')
 // Setting ffmpeg path to ffmpeg binary for os x so that ffmpeg can be packaged with the app.
-FfmpegCommand.setFfmpegPath('resources/ffmpeg.exe')
-FfmpegCommand.setFfprobePath('resources/ffprobe.exe') 
+//FfmpegCommand.setFfmpegPath('resources/ffmpeg.exe')
+//FfmpegCommand.setFfprobePath('resources/ffprobe.exe') 
 //var command = new FfmpegCommand();
 
 const whitelistedIpcChannels = [ 'protocol-data-msg', 'renderer-ready' ];

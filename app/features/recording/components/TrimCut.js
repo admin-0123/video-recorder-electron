@@ -76,6 +76,8 @@ type State = {
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;
 let ffmpeg  =  window.snapNodeAPI.ffmpeg;
 let fs  =  window.snapNodeAPI.fs;
+let _t;
+let endTime;
 
 //const recordedChunks = [];
 /**
@@ -89,21 +91,27 @@ class TrimCut extends Component<Props, State> {
      */
     constructor(props: Props) {
         super(props);
-		this.state = {
-			videoSrc:'',
-      videoSrc2:'',
-      CutPreviewmyVideo:'',
-			nouislider:0,
-			startTime:0,
-			endTime:0,
-      totalDuration:0,
-			currentTime:0,
-      fullpath:'',
-      blobsD:[],
-      publish:false,
-      canEdit:false,
-      uploadFilePath:''
-		  };
+        this.state = {
+            videoSrc:'',
+            videoSrc2:'',
+            CutPreviewmyVideo:'',
+            nouislider:0,
+            startTime:0,
+            endTime:0,
+            totalDuration:0,
+            currentTime:0,
+            fullpath:'',
+            blobsD:[],
+            publish:false,
+            canEdit:false,
+            uploadFilePath:'',
+            play_pause:false,
+            original_path:'',
+            edited_file_path:null,
+            redoFilePath:null,
+            undo:false,
+            redo:false
+          };
 		  this.loadProgress =  this.loadProgress.bind(this);
 		  this.updateNextProgress =  this.updateNextProgress.bind(this);
 		  this.countSeconds =  this.countSeconds.bind(this);
@@ -113,6 +121,10 @@ class TrimCut extends Component<Props, State> {
       this.concatBlobData =  this.concatBlobData.bind(this);
       this.publish =  this.publish.bind(this);
       this.deleteRec =  this.deleteRec.bind(this);
+      this.play_pause =  this.play_pause.bind(this);
+      this.pauseListner =  this.pauseListner.bind(this);
+      this.getTimeD =  this.getTimeD.bind(this);
+      this.redo =  this.redo.bind(this);
 
 
       
@@ -137,8 +149,12 @@ class TrimCut extends Component<Props, State> {
 			
 		},2500);
     var THIS = this;
+    _t = this;
+
     ipcRenderer.on("downloadComplete", (event, file) => {
       THIS.setState({fullpath:file})
+      THIS.setState({original_path:file})
+      THIS.setState({edited_file_path:file})
       console.log(file); // Full file path
     });
 		
@@ -156,7 +172,19 @@ class TrimCut extends Component<Props, State> {
 		
 		
     }
-
+    async getTimeD()
+    {
+      await document.getElementById("myVideo").play();
+      videotag = await document.getElementById('myVideo');
+      await document.getElementById("myVideo").pause();
+      while(videotag.duration === Infinity) {
+        await new Promise(r => setTimeout(r, 1000));
+        videotag.currentTime = 10000000*Math.random();
+        //this.setState({endTime :videotag.currentTime});
+        
+        this.setState({totalDuration :videotag.currentTime});
+        }
+    }
     /**
      * Stop all timers when unmounting.
      *
@@ -198,12 +226,18 @@ class TrimCut extends Component<Props, State> {
     fileObject = new File([blob], fileName, {
       type: 'video/mp4'
    });
-   this.setState({uploadFilePath:this.state.fullpath})
-
+   this.setState({uploadFilePath:this.state.edited_file_path})
+   
    THIS.setState({publish:true});
 		 slider = await document.getElementById('slider');
 		 videotag = await document.getElementById('myVideo');
-
+     if (slider && slider.noUiSlider) {
+       await this.getTimeD();
+       this.setState({startTime :0});
+       this.setState({endTime :videotag.duration});
+        slider.noUiSlider.destroy();
+    }
+     
 		 console.log(videotag.duration);
 		 //this.setState({endTime :videotag.duration});
      this.setState({totalDuration :videotag.duration});
@@ -245,6 +279,7 @@ class TrimCut extends Component<Props, State> {
   publish(){
     //localStorage.setItem('fileOBJ',fileObject)
     var url = this.state.uploadFilePath;
+    console.log(url);
     var type = this.props.typeV;
     var fileName = fileObject.name;
     ipcRenderer.send('add-file',{url,fileName,type});
@@ -292,49 +327,75 @@ class TrimCut extends Component<Props, State> {
   async reset(){
     var THIS = this;
     var fileName = this.props.FileObject.name;
-    this.setState({uploadFilePath:this.state.fullpath})
+    console.log(fileName);
+    this.setState({redoFilePath:this.state.edited_file_path})
+    this.setState({uploadFilePath:this.state.original_path})
+    this.setState({edited_file_path:this.state.original_path})
     var blob = new Blob(this.props.recordedChunks)
     
     fileObject = new File([blob], fileName, {
       type: 'video/mp4'
     });
-    console.log(this.props.blobUrl)
-    document.getElementsByClassName('myvideo')[0].style.display = "block";
-    document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "none";
-    document.getElementsByClassName('sliderActionLeft')[0].style.opacity = 1;
-    document.getElementById('slider').style.opacity = 1;
-    // await this.setState({videoSrc:URL.createObjectURL(this.props.blobUrl)});
-		// await document.getElementById("myVideo").play();
-		// videotag = await document.getElementById('myVideo');
-    // document.getElementsByClassName('myvideo')[0].style.display = "none";
-    // document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "block";
-		// while(videotag.duration === Infinity) {
-		// 	await new Promise(r => setTimeout(r, 1000));
-		// 	videotag.currentTime = 10000000*Math.random();
-		// 	//this.setState({endTime :videotag.currentTime});
-    //   this.setState({totalDuration :videotag.currentTime});
-      
-		//   }
 
+		await this.setState({videoSrc:URL.createObjectURL(this.props.blobUrl)});
+
+
+    console.log(this.props.blobUrl)
+    videotag = await document.getElementById('myVideo');
+    console.log(videotag);  
+    videotag.src = URL.createObjectURL(this.props.blobUrl);
+    THIS.setState({undo:false});
+    THIS.setState({redo:true});
+    await this.loadProgress();
+ 
+  }
+  async redo(){
+    var THIS = this;
+    this.setState({uploadFilePath:this.state.redoFilePath})
+    this.setState({edited_file_path:this.state.redoFilePath})
+    console.log(this.state.redoFilePath);
+    fs.readFile(this.state.redoFilePath , async function (err, data) {
+      THIS.setState({videoSrc:URL.createObjectURL(new Blob([data.buffer], {type: '*'}))})
+            
+      videotag.src = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));
+      const blob = new Blob([data.buffer], {type: '*'})
+      // var audioURL = window.URL.createObjectURL(blob);
+  
+      var fileName = THIS.state.redoFilePath;
+  
+      // const buffer = Buffer.from(await blob.arrayBuffer());
+       fileObject = new File([blob], fileName, {
+        type: 'video/mp4'
+     });
+     THIS.setState({undo:true});
+     THIS.setState({redo:false});
+     await THIS.loadProgress();
+
+
+    })
+ 
   }
     async trim(){
       if(this.state.canEdit== false){
         swal('Please select the duration for this feature, or you can publish original file.')
         return false;
       }
-      $('#trimicon').addClass('active');
-      $('#cuticon').removeClass('active');
+      // $('#trimicon').addClass('active');
+      // $('#cuticon').removeClass('active');
       this.setState({publish:false});
       $('.second').show();
+      $('.noUi-connects').addClass('active_red');
+      
       var THIS = this;
       console.log(this.state.fullpath);
-      var outputName = 'trim_'+this.props.FileObject.name;
+      console.log(this.state.edited_file_path);
+      var outputName = 'trim_'+Date.now()+this.props.FileObject.name;
       console.log(this.props.FileObject);
       // var fileBuffer = Buffer.from([this.props.FileObject])
       // console.log(fileBuffer);
       // var file = fs.readFile(fileBuffer , async function (err, data) {
       //   console.log(data);
-        var cmd =  await ffmpeg().input(this.state.fullpath).setStartTime(this.state.startTime)
+        var cmd =  await ffmpeg().input(this.state.edited_file_path).setStartTime(this.state.startTime)
         .setDuration(this.state.endTime)
         .output(outputName)
         .on('error', function(err) {
@@ -345,13 +406,15 @@ class TrimCut extends Component<Props, State> {
           function() {
             console.log(outputName);
             fs.readFile(outputName , async function (err, data) {
-              videotag = await document.getElementById('CutPreviewmyVideo');
+              videotag = await document.getElementById('myVideo');
               console.log(videotag);
+              THIS.setState({videoSrc:URL.createObjectURL(new Blob([data.buffer], {type: '*'}))})
+            
               videotag.src = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));
-              document.getElementsByClassName('myvideo')[0].style.display = "none";
-              document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "block";
-              document.getElementsByClassName('sliderActionLeft')[0].style.opacity = 0;
-              document.getElementById('slider').style.opacity = 0;
+              // document.getElementsByClassName('myvideo')[0].style.display = "none";
+              // document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "block";
+             // document.getElementsByClassName('sliderActionLeft')[0].style.opacity = 0;
+            //  document.getElementById('slider').style.opacity = 0;
               const blob = new Blob([data.buffer], {type: '*'})
               // var audioURL = window.URL.createObjectURL(blob);
           
@@ -364,7 +427,12 @@ class TrimCut extends Component<Props, State> {
               videotag.pause();
               THIS.setState({publish:true});
               $('.second').hide();
-              this.setState({uploadFilePath:fileName});
+              THIS.setState({uploadFilePath:fileName});
+              THIS.setState({undo:true});
+              
+              THIS.setState({edited_file_path:fileName});
+              $('.noUi-connects').removeClass('active_red');
+              THIS.loadProgress();
               // var url = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));;
               // THIS.setState({videoSrc2:url});
             })
@@ -402,20 +470,21 @@ class TrimCut extends Component<Props, State> {
         swal('Please select the duration for this feature, or you can publish original file.')
         return false;
       }
-      $('#trimicon').removeClass('active');
-      $('#cuticon').addClass('active');
+      // $('#trimicon').removeClass('active');
+      // $('#cuticon').addClass('active');
       this.setState({publish:false});
       $('.second').show();
+      $('.noUi-connect').addClass('active_red');
       var THIS = this;
       let firstStart = 0.01;
       console.log(this.state.fullpath);
-      var outputName = 'cut_'+this.props.FileObject.name;
+      var outputName = 'cut_'+Date.now()+this.props.FileObject.name;
       console.log(this.props.FileObject);
       // var fileBuffer = Buffer.from([this.props.FileObject])
       // console.log(fileBuffer);
       // var file = fs.readFile(fileBuffer , async function (err, data) {
       //   console.log(data);
-        var cmd =  await ffmpeg().input(this.state.fullpath).setStartTime("00:00:01")
+        var cmd =  await ffmpeg().input(this.state.edited_file_path).setStartTime("00:00:01")
         .setDuration(this.state.startTime)
         .output(outputName)
         .on('error', function(err) {
@@ -432,8 +501,8 @@ class TrimCut extends Component<Props, State> {
               // videotag.src = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));
               var urr1 = URL.createObjectURL(new Blob([data.buffer], {type: '*'}))
               window.localStorage.setItem('firstcutVideoURL', urr1);
-              var outputName2 = 'cut_2'+THIS.props.FileObject.name;
-              var outputName3 = 'cut_3'+THIS.props.FileObject.name;
+              var outputName2 = 'cut_2'+Date.now()+THIS.props.FileObject.name;
+              var outputName3 = 'cut_3'+Date.now()+THIS.props.FileObject.name;
               let end = THIS.state.endTime;
               let secondend = THIS.state.totalDuration;
               
@@ -469,23 +538,28 @@ class TrimCut extends Component<Props, State> {
                     })
                     .on('end', function() {
                       fs.readFile(outputName3 , async function (err, data) {
-                        document.getElementsByClassName('myvideo')[0].style.display = "none";
-                        document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "block";
-                        document.getElementsByClassName('sliderActionLeft')[0].style.opacity = 0;
-                        document.getElementById('slider').style.opacity = 0;
-                        videotag = await document.getElementById('CutPreviewmyVideo');
+                        // document.getElementsByClassName('myvideo')[0].style.display = "none";
+                        // document.getElementsByClassName('CutPreviewmyVideo')[0].style.display = "block";
+                        //document.getElementsByClassName('sliderActionLeft')[0].style.opacity = 0;
+                        //document.getElementById('slider').style.opacity = 0;
+                        THIS.setState({videoSrc:URL.createObjectURL(new Blob([data.buffer], {type: '*'}))})
+
+                        videotag = await document.getElementById('myVideo');
                         console.log(videotag);
                         videotag.src = URL.createObjectURL(new Blob([data.buffer], {type: '*'}));
                         var blob = new Blob([data.buffer], {type: '*'});
                         var fileName = outputName3;
-              
+                        THIS.setState({edited_file_path:outputName3});
                           // const buffer = Buffer.from(await blob.arrayBuffer());
                           fileObject = new File([blob], fileName, {
                             type: 'video/mp4'
                         });
+                        THIS.setState({undo:true});
                         videotag.pause();
                         THIS.setState({publish:true});
-                        this.setState({uploadFilePath:outputName3});
+                        THIS.setState({uploadFilePath:outputName3});
+                        THIS.loadProgress();
+                        $('.noUi-connect').removeClass('active_red');
                         console.log('Merging finished !');
                       })
                       
@@ -553,6 +627,36 @@ class TrimCut extends Component<Props, State> {
       videotagg.pause();
 
   }
+  play_pause(str) {
+    var T = this;
+	  this.setState({play_pause:!this.state.play_pause});
+    var VV = document.getElementById("myVideo");
+    VV.play();
+     endTime = this.state.endTime;
+    VV.removeEventListener("timeupdate", this.pauseListner);
+  //   VV.addEventListener("timeupdate", function(){
+  //     // console.log(this.currentTime )
+  //     // console.log(endt )
+  //     if(this.currentTime >  endt ) {
+  //         //this.pause();
+  //         console.log(this.currentTime )
+  //         console.log(endt )
+  //         T.setState({play_pause:false});
+  //     }
+  // });
+  VV.addEventListener("timeupdate", this.pauseListner);
+	}
+  pauseListner(e){
+    var endt = endTime;
+    console.log(e )
+        //console.log(endt )
+    if(e.target.currentTime >=  endt ) {
+        e.target.pause();
+        console.log(e.target.currentTime )
+        console.log(endt )
+        _t.setState({play_pause:false});
+    }
+  }
     /**
      * Render function of component.
      *
@@ -574,11 +678,11 @@ class TrimCut extends Component<Props, State> {
 			  <source src={this.state.videoSrc} type="video/mp4"/>
 			</video>
       </div>
-      <div className="videoContainer CutPreviewmyVideo"> 
+      {/* <div className="videoContainer CutPreviewmyVideo"> 
       <video id="CutPreviewmyVideo" width="320" height="240" controls>
 			  <source src={this.state.videoSrc2} type="video/mp4"/>
 			</video>
-      </div>
+      </div> */}
 		{/* <Nouislider
           start={[0,3]}
 		  step={1}
@@ -590,7 +694,7 @@ class TrimCut extends Component<Props, State> {
           }}
         /> */}
         <div className='sliderContainer'>
-         {this.state.fullpath =='' ?
+         {this.state.edited_file_path =='' ?
             <span id="wait">
               <p >Please wait whie its loading</p>
             </span>
@@ -615,7 +719,7 @@ class TrimCut extends Component<Props, State> {
                 </a>
             </span>
           }
-          {/* <span id='videoPlay' className=''></span> */}
+          <span onClick={()=>this.play_pause()} id='videoPlay' className={this.state.play_pause ? 'pause' : ''}></span>
           <div id='slider'></div>
           <span className='span_side'>
              <span> {this.calculateTimeDuration(this.state.startTime)} </span> /
@@ -626,26 +730,26 @@ class TrimCut extends Component<Props, State> {
                 }
             </span>
            <span>
-              <a className='undoVideo active' href='#' onClick={()=>{ this.reset() }}>
+              <a className={this.state.undo ? 'undoVideo active' : 'undoVideo'} href='#' onClick={()=>{ this.reset() }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="38.236" height="40.193" viewBox="0 0 38.236 40.193">
               <g id="circular-left-arrow" transform="translate(0 9.905) rotate(-20)">
                 <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
-                  <path id="Path_9878" data-name="Path 9878" d="M14.479,29.435A11.7,11.7,0,0,1,2.8,17.752a1.4,1.4,0,0,0-2.8,0A14.479,14.479,0,1,0,16.99,3.5a.68.68,0,0,1-.553-.645V.308c0-.309-.194-.4-.433-.206L10.848,4.317a.439.439,0,0,0,0,.708L16,9.24c.239.2.433.1.433-.205V6.8a.441.441,0,0,1,.549-.453,11.681,11.681,0,0,1-2.507,23.091Z" transform="translate(0)" fill="#c2c9db"/>
+                  <path id="Path_9878" data-name="Path 9878" d="M14.479,29.435A11.7,11.7,0,0,1,2.8,17.752a1.4,1.4,0,0,0-2.8,0A14.479,14.479,0,1,0,16.99,3.5a.68.68,0,0,1-.553-.645V.308c0-.309-.194-.4-.433-.206L10.848,4.317a.439.439,0,0,0,0,.708L16,9.24c.239.2.433.1.433-.205V6.8a.441.441,0,0,1,.549-.453,11.681,11.681,0,0,1-2.507,23.091Z" transform="translate(0)" fill="#1d346e"/>
                 </g>
               </g>
             </svg>
 
                 </a>
-                {/* <a href='#' className='redoVideo'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="38.235" height="40.192" viewBox="0 0 38.235 40.192">
+                <a href='#' className={this.state.redo ? 'redoVideo active' : 'redoVideo'} onClick={()=>{ this.redo() }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="38.235" height="40.192" viewBox="0 0 38.235 40.192">
                   <g id="circular-left-arrow" transform="translate(11.024) rotate(20)">
                     <g id="Group_13465" data-name="Group 13465" transform="translate(0 0)">
-                      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.434A11.7,11.7,0,0,0,26.161,17.752a1.4,1.4,0,0,1,2.8,0A14.479,14.479,0,1,1,11.969,3.495a.68.68,0,0,0,.553-.645V.308c0-.309.194-.4.433-.206l5.157,4.215a.439.439,0,0,1,0,.708L12.954,9.24c-.239.2-.433.1-.433-.205V6.8a.441.441,0,0,0-.549-.453,11.681,11.681,0,0,0,2.507,23.09Z" fill="#c2c9db"/>
+                      <path id="Path_9878" data-name="Path 9878" d="M14.479,29.434A11.7,11.7,0,0,0,26.161,17.752a1.4,1.4,0,0,1,2.8,0A14.479,14.479,0,1,1,11.969,3.495a.68.68,0,0,0,.553-.645V.308c0-.309.194-.4.433-.206l5.157,4.215a.439.439,0,0,1,0,.708L12.954,9.24c-.239.2-.433.1-.433-.205V6.8a.441.441,0,0,0-.549-.453,11.681,11.681,0,0,0,2.507,23.09Z" fill="#1d346e"/>
                     </g>
                   </g>
                 </svg>
 
-                </a> */}
+                </a>
             </span>
    
         </div>
