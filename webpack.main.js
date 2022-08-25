@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
     target: 'electron-main',
@@ -11,6 +12,11 @@ module.exports = {
     node: {
         __dirname: true
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.FLUENTFFMPEG_COV': false
+        })
+    ],
     externals: [ {
         'electron-debug': 'require(\'electron-debug\')',
         'electron-reload': 'require(\'electron-reload\')'
