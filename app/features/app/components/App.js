@@ -1,7 +1,7 @@
 // @flow
 
 import { AtlasKitThemeProvider } from '@atlaskit/theme';
-import type { Dispatch } from 'redux';
+// import type { Dispatch } from 'redux';
 
 import React, { Component } from 'react';
 import { Route, Switch ,Redirect } from 'react-router';
@@ -38,7 +38,7 @@ import Logo from '../../../images/Logo-new.png';
     )
   }
   
-class App extends Component<*> {
+class App extends Component {
     /**
      * Initializes a new {@code App} instance.
      *
@@ -116,7 +116,7 @@ class App extends Component<*> {
         );
     }
 
-    _listenOnProtocolMessages: (*) => void;
+    // _listenOnProtocolMessages: (*) => void;
 
     /**
      * Handler when main proccess contact us.
@@ -126,7 +126,7 @@ class App extends Component<*> {
      *
      * @returns {void}
      */
-    _listenOnProtocolMessages(event, inputURL: string) {
+    _listenOnProtocolMessages(event, inputURL) {
         // Remove trailing slash if one exists.
         if (inputURL.substr(-1) === '/') {
             inputURL = inputURL.substr(0, inputURL.length - 1); // eslint-disable-line no-param-reassign

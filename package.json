@@ -10,7 +10,7 @@
     "clean": "rm -rf node_modules build dist",
     "lint": "eslint . && flow",
     "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
-    "dist": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --mac",
     "postinstall": "patch-package && electron-builder install-app-deps",
     "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-poll",
     "publish": "electron-builder -p always"
