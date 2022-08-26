@@ -2234,8 +2234,8 @@ console.log(yuppy);
                     <a  href="#" onClick={() => this.Exit(window.location.search)}>
                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 15.447 15.447">
                             <g id="close" transform="translate(1.415 1.414)">
-                                <line id="Line_359" data-name="Line 359" x2="17.845" transform="translate(12.618) rotate(135)" fill="none" stroke="#182e45" stroke-linecap="round" stroke-width="2"/>
-                                <line id="Line_360" data-name="Line 360" x2="17.845" transform="rotate(45)" fill="none" stroke="#182e45" stroke-linecap="round" stroke-width="2"/>
+                                <line id="Line_359" data-name="Line 359" x2="17.845" transform="translate(12.618) rotate(135)" fill="none" stroke="#182e45" strokeLinecap="round" strokeWidth="2"/>
+                                <line id="Line_360" data-name="Line 360" x2="17.845" transform="rotate(45)" fill="none" stroke="#182e45" strokeLinecap="round" strokeWidth="2"/>
                             </g>
                         </svg>
                     </a>
