@@ -7,15 +7,12 @@ var fs = require("fs");
 const appVersion = require('../../package.json').version;
 var FfmpegCommand = require('fluent-ffmpeg');
 
- import ffmpeg from 'ffmpeg-static-electron';
+import ffmpeg from 'ffmpeg-static-electron';
 var ffmetadata = require("ffmetadata");
 ffmetadata.setFfmpegPath(ffmpeg.path)
 // Setting ffmpeg path to ffmpeg binary for os x so that ffmpeg can be packaged with the app.
 FfmpegCommand.setFfmpegPath(ffmpeg.path)
 // FfmpegCommand.setFfprobePath('./app/bin/ffprobe/ffprobe.exe') 
-
-
-
 
 //var ffmetadata = require("ffmetadata");
 //ffmetadata.setFfmpegPath('resources/ffmpeg.exe')
