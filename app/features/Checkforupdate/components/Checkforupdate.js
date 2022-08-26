@@ -101,7 +101,7 @@ class Checkforupdate extends Component<Props, State> {
                     <div className='col-sm-12'>
                         <div className="remotePC-info">
                             <div style={{marginBottom:'10px'}}>
-                            <img style={{height: '47px'}} alt="Adilo" src="https://adilo.bigcommand.com/assets/logov2.b4ac263b.svg" class="logo"></img>
+                            <img style={{height: '47px'}} alt="Adilo" src="https://adilo.bigcommand.com/assets/logov2.b4ac263b.svg" className="logo"></img>
                             </div>
                             <p>Version: { appVersion }</p>
                             <p>Copyright ©2021-2022 By BigCommand.</p>
