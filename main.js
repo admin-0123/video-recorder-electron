@@ -575,9 +575,6 @@ function createSnapByteWindow() {
                     mainWindow.webContents.executeJavaScript(
                         `localStorage.setItem('refresh','true')`
                     );
-                    // mainWindow.show()
-                    // mainWindow.restore()
-                    // mainWindow.focus();
                 }
     
                    // log.info("******************************************** closed Opened ********************************************");
@@ -893,12 +890,6 @@ ipcMain.on("win::exit", (data) =>{  console.log(data.sender)
     if(data.sender.id ==1) {
         mainWindow.hide()
     }
-    //  else if(data.sender.id == 10 ) {
-    //     if(child) {
-    //         mainWindow.webContents.send("warning");
-    //    }
-        
-    // }  
     else {
         if(child || child2 || child3) {
            child.close();

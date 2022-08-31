@@ -241,8 +241,6 @@ class DashboardPage extends Component<Props, State> {
         video_id: arr[3],
         project_id: getStoreSingle("selectedWorkspaceUId"),
         fileType: file.type,
-        // duration: Math.floor(this.duration),
-        // duration_formatted: $this.convertSecondsToTime(this.duration),
         duration: Math.floor(file.meta.duration),
         duration_formatted: this.TimeLap,
         drm_protection: "false",
@@ -267,22 +265,6 @@ class DashboardPage extends Component<Props, State> {
         $(".c_container_outer").addClass("add_height");
       });
     });
-    //.use(Uppy.XHRUpload, { endpoint: `http://127.0.0.1:8000/api/videoUpload`,
-    //     .use(Uppy.XHRUpload, { endpoint: `${config.apiUrl}api/videoUpload`,
-    //         headers: {
-    //             'Authorization': `Bearer ${userData.access_token}`,
-
-    //         },
-    //       formData: true,
-    //       fieldName: 'videoblob',
-    //       //metaFields: ['workspaceID','ownerID','foldeID'],
-    //    })
-    // uppy.on('complete', (result) => {
-    //     console.log('successful files:', result.successful)
-
-    //      //location.reload();
-    //      //console.log('Upload complete! We’ve uploaded these files:', result.successful)
-    // })
   }
 
   /**
@@ -312,10 +294,6 @@ class DashboardPage extends Component<Props, State> {
         name: fileObject.name, // file name
         type: type, // file type
         data: fileObject, // file blob
-        // meta: {
-        //   // optional, store the directory path of a file so Uppy can tell identical files in different directories apart.
-        //   relativePath: webkitFileSystemEntry.relativePath,
-        // },
         source: "#drag-drop-area", // optional, determines the source of the file, for example, Instagram.
         isRemote: false, // optional, set to true if actual file is not in the browser, but on some remote server, for example,
         // when using companion in combination with Instagram.
@@ -327,12 +305,10 @@ class DashboardPage extends Component<Props, State> {
       shell.openExternal(id);
     } else if (action == "copyLink") {
       navigator.clipboard.writeText(id);
-      /* Alert the copied text */
-      //alert("Copied the text: " + id);
     } else if (action == "deleteFile") {
       this.deleteFile(id);
     } else if (action == "senEmaillink") {
-      //shell.openExternal("https://snapbyte.bigcommand.io?action=openCreateworkspace");
+      
       ipcRenderer.send(
         "open-child",
         "CreateWorkspace",
