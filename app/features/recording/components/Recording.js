@@ -1409,7 +1409,8 @@ console.log(yuppy);
                 document.getElementsByClassName('nav_bar')[0].style.display = 'none';
               
                 if(TH.state.DrawingTool){
-                  ipcRenderer.send( 'full-screen',true);
+                  // ipcRenderer.send( 'full-screen',true);
+                  ipcRenderer.send('resize-window', 'recording', 450, 1250, false, false );
                 } else{
                   ipcRenderer.send('resize-window', 'recording', 50, 250, false, false );
                 }

@@ -650,7 +650,9 @@ function createSnapByteWindow() {
        //child.webContents.openDevTools();
     })
     ipcMain.on('full-screen', (event,action) =>  {
+        console.log("full screen " + child.isFullScreen())
         child.setFullScreen(action);
+        console.log("full screen " + child.isFullScreen())
         //console.log('ful');
     
     });

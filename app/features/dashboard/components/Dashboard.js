@@ -139,19 +139,12 @@ class DashboardPage extends Component<Props, State> {
    * @returns {void}
    */
   componentDidMount() {
-    // ipcRenderer.send( 'resize-to-default' );
-    // this.props.dispatch(push('/', {
-    //     token:''
-    // }));
-    // this.props.dispatch(startOnboarding('welcome-page'));
-
-    // this._updateRoomname();
+    
     ipcRenderer.on("uploadFIle", (event, { url, fileName, type }) => {
       $(".right_side").show();
       $(".c_container_outer").removeClass("add_height");
       this.uploadfile(url, type, fileName);
-      //console.log(event);
-      //console.log(action);
+
     });
     ipcRenderer.on("startRec", (event) => {
       this.record();
@@ -231,8 +224,6 @@ class DashboardPage extends Component<Props, State> {
           setStoreSingle("selectedWorkspaceUId", all_projects[0].id);
         }
       }
-      //  alert(getStoreSingle('selectedWorkspaceUId'));
-      //  alert(proID);
 
       console.info(file);
       console.info(response);
