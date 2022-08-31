@@ -429,10 +429,6 @@ class DashboardPage extends Component<Props, State> {
     console.log("2");
     var data = {
       id: selectedWorkspaceId,
-      // "page":this.state.pagination.current_page,
-      // "get":'',
-      // "type":"all",
-      // "folder_id":0
     };
     var obj = {
       method: "get",
@@ -446,9 +442,6 @@ class DashboardPage extends Component<Props, State> {
     await axios(obj).then((response) => {
       console.log(response.data.videos);
       this.setState({ Files: response.data.videos });
-      //this.setState({pagination:response.data.pagination});
-      // console.log(this.state.pagination);
-      // console.log(this.state.Files);
     });
   }
 
