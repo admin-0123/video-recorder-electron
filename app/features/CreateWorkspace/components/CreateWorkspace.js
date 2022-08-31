@@ -127,23 +127,7 @@ class CreateWorkspace extends Component<Props, State> {
                                 <p>Anyone you share this folder with will be able view all of it’s content without restrictions.</p>
                                 <form action="javascript:void(0)" className="mt-3 pt-2">
                                     <div className="form-group mb-0">
-                                        {/* <input type="text" placeholder="Enter email address" name="workSpaceName" id="workSpaceName" value={this.state.workspaceName}
-                                            onChange={(e) => this.setState({workspaceName:e.target.value})} className="form-control form-control"></input>
-                                            {this.state.wkerr && 
-                                                <span className="invalid-feedback d-flex align-items-center">
-                                                
-                                                    <svg xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" version="1.2" viewBox="0 0 18.088 18.088" width="18" height="18" class="mr-2">
-                                                        <g id="Group_8570" data-name="Group 8570" transform="translate(-628 -479)">
-                                                            <circle id="Ellipse_4260" data-name="Ellipse 4260" cx="9.044" cy="9.044" r="9.044" transform="translate(628 479)" fill="#ee5951"></circle>
-                                                            <g id="Group_8569" data-name="Group 8569" transform="translate(638.103 492.812) rotate(180)">
-                                                                <circle id="Ellipse_4259" data-name="Ellipse 4259" cx="0.994" cy="0.994" r="0.994" transform="translate(0)" fill="#fff"></circle>
-                                                                <path id="Path_8229" data-name="Path 8229" d="M.595,0A.6.6,0,0,0,0,.595V5.648a.595.595,0,1,0,1.189,0V.595A.6.6,0,0,0,.595,0Z" transform="translate(0.435 3.61)" fill="#fff"></path>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                    {this.state.wkerr}
-                                                </span>
-                                            } */}
+                                        
                                             <ReactMultiEmail
                                                     placeholder="Enter email address"
                                                     emails={emails}
