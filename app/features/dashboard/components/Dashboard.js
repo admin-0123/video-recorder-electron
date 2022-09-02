@@ -168,10 +168,6 @@ class DashboardPage extends Component<Props, State> {
     console.log("userDatauserDatauserDatauserData");
     console.log(userData.access_token);
     var meta_fields = {
-      // duration: "129",
-      // duration_formatted: "00:02:09",
-      // drm_protection: "false",
-      // projectId: selectedWorkspaceId,
       access_token: `Bearer ${token}`,
     };
     this.getFiles();

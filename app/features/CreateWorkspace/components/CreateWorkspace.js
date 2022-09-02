@@ -44,8 +44,6 @@ class CreateWorkspace extends Component<Props, State> {
                 status:false,
                 wkerr:null,
                 emails: [],
-
-
         };
         this.CreateWorkspace = this.CreateWorkspace.bind(this);
     }

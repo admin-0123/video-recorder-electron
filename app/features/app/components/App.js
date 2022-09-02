@@ -1,7 +1,6 @@
 // @flow
 
 import { AtlasKitThemeProvider } from "@atlaskit/theme";
-// import type { Dispatch } from 'redux';
 
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router";

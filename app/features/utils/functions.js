@@ -2,7 +2,6 @@
 
 // @flow
 
-
 /**
  * Return true if Electron app is running on Mac system.
  *

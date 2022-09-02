@@ -31,8 +31,6 @@ let desktopCapturer  =  window.snapNodeAPI.desktopCapturer;
 
 
 
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Landing, Body, FieldWrapper, Header, Label, Wrapper } from '../styled';
 import '../css/welcome.css';

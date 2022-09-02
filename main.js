@@ -224,7 +224,7 @@ function tray(basePath) {
                }
             }
          ]
-         
+        
         //  let trayMenu = Menu.buildFromTemplate(trayMenuTemplate)
         //  trayIcon.setContextMenu(trayMenu)
          app.whenReady().then(() => {

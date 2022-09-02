@@ -36,6 +36,7 @@ export const MAIN_API = {
     Win: WINDOW_EVENTS,
     
 }
+
 window.snapNodeAPI = {
     "MAIN_API":MAIN_API,
     ffmpeg:FfmpegCommand,

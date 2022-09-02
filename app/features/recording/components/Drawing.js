@@ -12,7 +12,6 @@ import crosshair from '../../../images/crosshair.png';
 import $ from 'jquery';
 
 type Props = {
-
     /**
      * Redux dispatch.
      */

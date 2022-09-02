@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import type { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-// import { InputList }'./index';
 import '../css/checkforupdate.css';
 
 let ipcRenderer  =  window.snapNodeAPI.ipcRenderer;

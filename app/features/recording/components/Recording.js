@@ -71,7 +71,6 @@ type State = {
      * Timer for animating the room name geneeration.
      */
     animateTimeoutId: ?TimeoutID,
-
     /**
      * Generated room name.
      */

@@ -11,7 +11,6 @@ import { openExternalLink } from '../../utils';
 import { version } from '../../../../package.json';
 
 type State = {
-
     /**
      * Whether the droplist is open or not.
      */
