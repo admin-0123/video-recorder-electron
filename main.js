@@ -23,9 +23,29 @@ const config = require('./app/features/config');
 const { openExternalLink } = require('./app/features/utils/openExternalLink');
 const pkgJson = require('./package.json');
 
+const Store = require('electron-store');
+
+const schema = {
+    startKeyCombination: {
+        type: 'string',
+        default: 'Alt+CommandOrControl+5',
+    },
+    pauseKeyCombination: {
+        type: 'string',
+        default: 'Alt+CommandOrControl+6',
+    },
+    stopKeyCombination: {
+        type: 'string',
+        default: 'Alt+CommandOrControl+7',
+    }
+}
+
+const store = new Store({schema});
+
 const showDevTools = Boolean(process.env.SHOW_DEV_TOOLS) || (process.argv.indexOf('--show-dev-tools') > -1);
 
 const ENABLE_REMOTE_CONTROL = false;
+
 
 // We need this because of https://github.com/electron/electron/issues/18214
 app.commandLine.appendSwitch('disable-site-isolation-trials');

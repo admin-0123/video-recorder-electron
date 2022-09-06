@@ -153,6 +153,21 @@ class Preference extends Component<Props, State> {
 
     }
  
+    handleShortcut = (event) => {
+        console.log(event);
+        const keyCode = event.keyCode;
+        const key = event.key;
+
+        if ((keyCode >= 16 && keyCode <= 18) || keyCode === 91) return;
+        
+        const value = [];
+        event.ctrlKey ? value.push("Control") : null;
+        event.shiftKey ? value.push("Shift") : null;
+        event.isAlt ? value.push("Alt") : null;
+        value.push(key.toUpperCase());
+        console.log(value)
+        // document.getElementById("hotkey").value = value.join("+");
+    }
     
     /**
      * Render function of component.
@@ -235,6 +250,7 @@ class Preference extends Component<Props, State> {
                 Record audio / video
                     </Form.Label>
                     <Col xs="7">
+                        <input type="text" value="CTRL ALT 5" onKeyUp={(e) => { this.handleShortcut(e) }} />
                         <div className='shortcode'><span>CTRL ALT 5</span></div>
                     </Col>
            
